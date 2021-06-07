@@ -52,7 +52,7 @@ const auth = require("./routes/auth");
 const users = require("./routes/users");
 const league = require("./routes/league");
 const teams = require("./routes/teams");
-
+const representive_manager = require("./routes/representive_manager");
 //#endregion
 
 //#region cookie middleware
@@ -79,6 +79,7 @@ app.get("/alive", (req, res) => res.send("I'm alive"));
 app.use("/users", users);
 app.use("/league", league);
 app.use("/teams", teams);
+app.use("/representive_manager",representive_manager);
 app.use(auth);
 
 app.use(function (err, req, res, next) {
