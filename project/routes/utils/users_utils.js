@@ -13,5 +13,10 @@ async function getFavoritePlayers(user_id) {
   return player_ids;
 }
 
+
+
+
+
 exports.markPlayerAsFavorite = markPlayerAsFavorite;
 exports.getFavoritePlayers = getFavoritePlayers;
+
