@@ -3,35 +3,86 @@ const DButils = require("./DButils");
 
 ///maybe change the manager to representative
 ///////////////////////////////////change
-async function getManager(){
-    const manager = await DButils.execQuery(
-      `select * from dbo.users where role=manager`
+async function getRFA(){
+    const rfa = await DButils.execQuery(
+      `select username from dbo.users where username = 'daniel'`
     );
-    return manager;
+    return rfa[0];
   }
 
-async function addRefereeToMatch(referee_id, match_id) {
-    ///get al matches the referee is in there
+async function addMainRefereeToMatch(referee_id, match_id) {
+    ///get all matches the referee is in there
     const referee_in_matches = await DButils.execQuery(
-        `select match_id,date_match,referee_id from dbo.match where referee_id = '${referee_id}'`
+        `select match_id,match_date,main_referee,first_line_referee,second_line_referee from dbo.matches where 
+        main_referee = '${referee_id}' OR first_line_referee = '${referee_id}' OR second_line_referee = '${referee_id}'`
     );
     ////get the date of the match that the representator want to add the referee there
-    const date_match = await DButils.execQuery(
-    `select date_match from dbo.match where match_id = '${match_id}'`
-    )[0];
+    const date_future_match = await DButils.execQuery(
+    `select match_date from dbo.matches where match_id = '${match_id}'`
+    );
     ////get all the games that the referee in there and collide in the date of the current game 
     for (let i = 0;i<referee_in_matches.length;i++){
-        if(referee_in_matches.date_match.getYear() == date_match.getYear() &&
-        referee_in_matches.date_match.getMonth() == date_match.getMonth() &&
-        referee_in_matches.date_match.getDay() == date_match.getDay()){
-            return null;
+        if(referee_in_matches[i].match_date.getYear() == date_future_match.getYear() &&
+        referee_in_matches[i].match_date.getMonth() == date_future_match.getMonth() &&
+        referee_in_matches[i].match_date.getDay() == date_future_match.getDay()){
+            return 0;
         }
     }
     await DButils.execQuery(
-      `update dbo.match set referee_id = '${referee_id}' where match_id = '${match_id}'`
+      `update dbo.matches set main_referee = '${referee_id}' where match_id = '${match_id}'`
     );
     return 1;
   }
 
-  exports.getManager = getManager; /////////////////change
-  exports.addRefereeToMatch = addRefereeToMatch;
+  async function addFirstLineRefereeToMatch(referee_id, match_id) {
+    ///get all matches the referee is in there
+    const referee_in_matches = await DButils.execQuery(
+        `select match_id,match_date,main_referee,first_line_referee,second_line_referee from dbo.matches where 
+        main_referee = '${referee_id}' OR first_line_referee = '${referee_id}' OR second_line_referee = '${referee_id}'`
+    );
+    ////get the date of the match that the representator want to add the referee there
+    const date_future_match = await DButils.execQuery(
+    `select match_date from dbo.matches where match_id = '${match_id}'`
+    );
+    ////get all the games that the referee in there and collide in the date of the current game 
+    for (let i = 0;i<referee_in_matches.length;i++){
+        if(referee_in_matches[i].match_date.getYear() == date_future_match.getYear() &&
+        referee_in_matches[i].match_date.getMonth() == date_future_match.getMonth() &&
+        referee_in_matches[i].match_date.getDay() == date_future_match.getDay()){
+            return 0;
+        }
+    }
+    await DButils.execQuery(
+      `update dbo.matches set first_line_referee = '${referee_id}' where match_id = '${match_id}'`
+    );
+    return 1;
+  }
+
+  async function addSecondLineRefereeToMatch(referee_id, match_id) {
+    ///get all matches the referee is in there
+    const referee_in_matches = await DButils.execQuery(
+        `select match_id,match_date,main_referee,first_line_referee,second_line_referee from dbo.matches where 
+        main_referee = '${referee_id}' OR first_line_referee = '${referee_id}' OR second_line_referee = '${referee_id}'`
+    );
+    ////get the date of the match that the representator want to add the referee there
+    const date_future_match = await DButils.execQuery(
+    `select match_date from dbo.matches where match_id = '${match_id}'`
+    );
+    ////get all the games that the referee in there and collide in the date of the current game 
+    for (let i = 0;i<referee_in_matches.length;i++){
+        if(referee_in_matches[i].match_date.getYear() == date_future_match.getYear() &&
+        referee_in_matches[i].match_date.getMonth() == date_future_match.getMonth() &&
+        referee_in_matches[i].match_date.getDay() == date_future_match.getDay()){
+            return 0;
+        }
+    }
+    await DButils.execQuery(
+      `update dbo.matches set second_line_referee = '${referee_id}' where match_id = '${match_id}'`
+    );
+    return 1;
+  }
+
+  exports.getRFA = getRFA; /////////////////change
+  exports.addMainRefereeToMatch = addMainRefereeToMatch;
+  exports.addFirstLineRefereeToMatch = addFirstLineRefereeToMatch;
+  exports.addSecondLineRefereeToMatch = addSecondLineRefereeToMatch;
