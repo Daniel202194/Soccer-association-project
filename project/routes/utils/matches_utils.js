@@ -1,6 +1,9 @@
 const DButils = require("./DButils");
 
 async function getMatch(match_id) {
+  if(match_id == null || match_id == "" || match_id != parseInt(10)){
+    return "Missing field, make sure you entered: match_id in type integer";
+  }
   const match = (
     await DButils.execQuery(
       `SELECT * FROM dbo.matches WHERE match_id = '${match_id}'`
