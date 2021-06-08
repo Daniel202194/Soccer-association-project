@@ -8,6 +8,7 @@ async function getMatch(match_id) {
     await DButils.execQuery(
       `SELECT * FROM dbo.matches WHERE match_id = '${match_id}'`
     )
+
   );
   return match;
 }
