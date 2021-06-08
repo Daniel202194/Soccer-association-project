@@ -25,21 +25,25 @@ router.use(async function (req, res, next) {
     }
 });
 
-
-
-////////////////////changeeeeee 
-router.post("/addMainRefereeToMatch", async (req, res, next) => {
+router.post("/addRefereesToMatch", async (req, res, next) => {
 
     try {
         ///check if there is a referee
-        const referee = await referee_utils.getReferee(req.body.userName);
+        const main_referee = await referee_utils.getReferee(req.body.mainUserName);
+        const first_referee = await referee_utils.getReferee(req.body.firstUserName);
+        const second_referee = await referee_utils.getReferee(req.body.secondUserName);
 
-        if (referee.length == 0) {
-            throw { status: 401, message: "Referee does not exist" };
+        if (main_referee.length == 0 || first_referee.length == 0 || second_referee.length == 0) {
+            throw { status: 401, message: "One of the referees does not exist" };
         }
 
-        if (referee[0].type != "main referee") {
+        if (main_referee[0].type != "main referee" || first_referee[0].type != "linesman" || second_referee[0].type != "linesman") {
             throw { status: 404, message: "It is not possible to place a referee because he does not have the appropriate certification" };
+        }
+
+        if (first_referee[0].referee_id == second_referee[0].referee_id){
+            throw { status: 404, message: "Can not choose same line referee" };
+
         }
 
         const match = await matches_utils.getMatch(req.body.match_id);
@@ -57,125 +61,25 @@ router.post("/addMainRefereeToMatch", async (req, res, next) => {
             throw { status: 401, message: "match does not exist" };
         }
 
-        if (match[0].main_referee != null) {
-            throw { status: 401, message: "There is already a main referee to this match" };
+        if (match[0].main_referee != null || match[0].first_line_referee != null || match[0].second_line_referee != null) {
+            throw { status: 401, message: "There is already placed referee to this match" };
         }
 
-        if (match[0].first_line_referee == referee[0].referee_id || match[0].second_line_referee == referee[0].referee_id) {
-            throw { status: 401, message: "The referee is already refereeing in this match" };
-        }
-
-        // const referee_id = req.session.userName;
         const match_id = req.body.match_id;
-
-        const result = await representive_manager_utils.addMainRefereeToMatch(referee[0].referee_id, match_id);
+        const result = await representive_manager_utils.addRefereesToMatch(main_referee[0].referee_id,first_referee[0].referee_id,second_referee[0].referee_id, match_id);
         if (result == 0)
-            throw { status: 401, message: "referee cannot be in two matches in same day" };
-        res.status(201).send(req.body.userName + " was add successfully to the match");
+            throw { status: 401, message: "main referee cannot be in two matches in same day" };
+        else if (result == 1)
+            throw { status: 401, message: "first line referee cannot be in two matches in same day" };
+        else if (result == 2)
+            throw { status: 401, message: "second line referee cannot be in two matches in same day" };
+        else
+            res.status(201).send("Referees was add successfully to the match");
     } catch (error) {
         next(error);
     }
 });
 
-
-router.post("/addFirstLineRefereeToMatch", async (req, res, next) => {
-
-    try {
-        ///check if there is a referee
-        const referee = await referee_utils.getReferee(req.body.userName);
-
-        if (referee.length == 0) {
-            throw { status: 401, message: "Referee does not exist" };
-        }
-
-        if (referee[0].type != "linesman") {
-            throw { status: 404, message: "It is not possible to place a referee because he does not have the appropriate certification" };
-        }
-
-        const match = await matches_utils.getMatch(req.body.match_id);
-
-
-        const timeElapsed = Date.now();
-        const today = new Date(timeElapsed);
-        const date_today = today.toISOString().slice(0, 16).replace('T', ' ');
-        const date_match = new Date().toISOString().slice(0, 16).replace('T', ' ');
-
-        if (date_today > date_match) {
-            throw { status: 401, message: "match have already been played" };
-        }
-        if (match.length == 0) {
-            throw { status: 401, message: "match does not exist" };
-        }
-
-        if (match[0].first_line_referee != null) {
-            throw { status: 401, message: "There is already a first line referee to this match" };
-        }
-
-        if (match[0].first_line_referee == referee[0].referee_id || match[0].second_line_referee == referee[0].referee_id) {
-            throw { status: 401, message: "The referee is already refereeing in this match" };
-        }
-
-        // const referee_id = req.session.userName;
-        const match_id = req.body.match_id;
-
-        const result = await representive_manager_utils.addFirstLineRefereeToMatch(referee[0].referee_id, match_id);
-        if (result == 0)
-            throw { status: 401, message: "referee cannot be in two matches in same day" };
-        res.status(201).send(req.body.userName + " was add successfully to the match");
-    } catch (error) {
-        next(error);
-    }
-});
-
-
-router.post("/addSecondLineRefereeToMatch", async (req, res, next) => {
-
-    try {
-        ///check if there is a referee
-        const referee = await referee_utils.getReferee(req.body.userName);
-
-        if (referee.length == 0) {
-            throw { status: 401, message: "Referee does not exist" };
-        }
-
-        if (referee[0].type != "linesman") {
-            throw { status: 404, message: "It is not possible to place a referee because he does not have the appropriate certification" };
-        }
-
-        const match = await matches_utils.getMatch(req.body.match_id);
-
-
-        const timeElapsed = Date.now();
-        const today = new Date(timeElapsed);
-        const date_today = today.toISOString().slice(0, 16).replace('T', ' ');
-        const date_match = new Date().toISOString().slice(0, 16).replace('T', ' ');
-
-        if (date_today > date_match) {
-            throw { status: 401, message: "match have already been played" };
-        }
-        if (match.length == 0) {
-            throw { status: 401, message: "match does not exist" };
-        }
-
-        if (match[0].second_line_referee != null) {
-            throw { status: 401, message: "There is already a second line referee to this match" };
-        }
-
-        if (match[0].first_line_referee == referee[0].referee_id || match[0].second_line_referee == referee[0].referee_id) {
-            throw { status: 401, message: "The referee is already refereeing in this match" };
-        }
-
-        // const referee_id = req.session.userName;
-        const match_id = req.body.match_id;
-
-        const result = await representive_manager_utils.addSecondLineRefereeToMatch(referee[0].referee_id, match_id);
-        if (result == 0)
-            throw { status: 401, message: "referee cannot be in two matches in same day" };
-        res.status(201).send(req.body.userName + " was add successfully to the match");
-    } catch (error) {
-        next(error);
-    }
-});
 
 
 router.get("/setMatches/:LeagueId", async (req, res, next) => {
