@@ -18,6 +18,10 @@ async function addRefereesToMatch(main_referee_id, first_line_referee_id, second
     const date_future_match = await DButils.execQuery(
         `select match_date from dbo.matches where match_id = '${match_id}'`
     );
+    if(date_future_match.length == 0){
+        return -1;
+    }
+
     ////get all the games that the referee in there and collide in the date of the current game 
     for (let i = 0; i < referee_in_matches.length; i++) {
         if (await isRefereeBusy(referee_in_matches[i], date_future_match[0].match_date) === true) {
