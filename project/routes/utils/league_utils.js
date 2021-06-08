@@ -1,5 +1,25 @@
 const axios = require("axios");
 const LEAGUE_ID = 271;
+const DButils = require("./DButils");
+
+
+
+async function getLeagues(league_id) {
+  let leagues = (
+      await DButils.execQuery("SELECT * FROM dbo.leagues where league_id=" + league_id)
+  );
+  return (leagues);
+}
+
+
+async function getLeaguePolicy(league_id) {
+  let match_policy = (
+      await DButils.execQuery(`SELECT matchesPolicy FROM dbo.leagues where league_id='${league_id}'`)
+  );
+  return (match_policy);
+}
+
+
 
 async function getLeagueDetails() {
   const league = await axios.get(
@@ -27,3 +47,5 @@ async function getLeagueDetails() {
   };
 }
 exports.getLeagueDetails = getLeagueDetails;
+exports.getLeagues = getLeagues
+exports.getLeaguePolicy = getLeaguePolicy

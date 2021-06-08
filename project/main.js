@@ -33,7 +33,7 @@ app.use(express.static(path.join(__dirname, "public"))); //To serve static files
 // middleware to serve all the needed static files under the dist directory - loaded from the index.html file
 // https://expressjs.com/en/starter/static-files.html
 app.use(express.static("dist"));
-
+///28.5.21 14:30
 app.get("/api", (req, res) => {
   res.sendFile(__dirname + "/index.html");
 });
@@ -47,13 +47,13 @@ const corsConfig = {
 app.use(cors(corsConfig));
 app.options("*", cors(corsConfig));
 
-const port = process.env.PORT || "3080";
+const port = process.env.PORT || "3000";
 
 const auth = require("./routes/auth");
 const users = require("./routes/users");
 const league = require("./routes/league");
 const teams = require("./routes/teams");
-
+const representive_manager = require("./routes/representive_manager");
 //#endregion
 
 //#region cookie middleware
@@ -80,6 +80,7 @@ app.get("/alive", (req, res) => res.send("I'm alive"));
 app.use("/users", users);
 app.use("/league", league);
 app.use("/teams", teams);
+app.use("/representive_manager",representive_manager);
 app.use(auth);
 
 app.use(function (err, req, res, next) {
