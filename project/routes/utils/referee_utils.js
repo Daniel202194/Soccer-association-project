@@ -2,7 +2,7 @@ const DButils = require("./DButils");
 
 async function getReferee(userName) {
   if(userName == null || userName == ""){
-    throw { status: 404, message: "Missing field, make sure you entered: userName" };
+    return "Missing field, make sure you entered: userName";
   }
   const referee = (
       await DButils.execQuery(
