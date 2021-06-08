@@ -4,6 +4,8 @@ const referee_utils = require("./utils/referee_utils");
 const teams_utils = require("./utils/teams_utils");
 const matches_utils = require("./utils/matches_utils.js");
 const league_utils = require("./utils/league_utils.js");
+const seasons_utils = require("./utils/seasons_utils.js");
+
 const representive_manager_utils = require("./utils/representive_manager_utils");
 
 
@@ -31,22 +33,16 @@ router.post("/addRefereesToMatch", async (req, res, next) => {
         const first_referee = await referee_utils.getReferee(req.body.firstUserName);
         const second_referee = await referee_utils.getReferee(req.body.secondUserName);
 
-        if (main_referee.length == 0 || first_referee.length == 0 || second_referee.length == 0) {
+        if (main_referee.length == 0 || first_referee.length == 0 || second_referee.length == 0)
             throw { status: 401, message: "One of the referees does not exist" };
-        }
 
-        if (main_referee[0].type != "main referee" || first_referee[0].type != "linesman" || second_referee[0].type != "linesman") {
+        if (main_referee[0].type != "main referee" || first_referee[0].type != "linesman" || second_referee[0].type != "linesman")
             throw { status: 404, message: "It is not possible to place a referee because he does not have the appropriate certification" };
-        }
 
-        if (first_referee[0].referee_id == second_referee[0].referee_id){
+        if (first_referee[0].referee_id == second_referee[0].referee_id)
             throw { status: 404, message: "Can not choose same line referee" };
-
-        }
-
+        
         const match = await matches_utils.getMatch(req.body.match_id);
-
-
         const timeElapsed = Date.now();
         const today = new Date(timeElapsed);
         const date_today = today.toISOString().slice(0, 16).replace('T', ' ');
@@ -64,7 +60,7 @@ router.post("/addRefereesToMatch", async (req, res, next) => {
         }
 
         const match_id = req.body.match_id;
-        const result = await representive_manager_utils.addRefereesToMatch(main_referee[0].referee_id,first_referee[0].referee_id,second_referee[0].referee_id, match_id);
+        const result = await representive_manager_utils.addRefereesToMatch(main_referee[0].referee_id, first_referee[0].referee_id, second_referee[0].referee_id, match_id);
         if (result == 0)
             throw { status: 401, message: "main referee cannot be in two matches in same day" };
         else if (result == 1)
@@ -79,39 +75,51 @@ router.post("/addRefereesToMatch", async (req, res, next) => {
 });
 
 
-
-router.get("/setMatches/:LeagueId", async (req, res, next) => {
+router.get("/setMatches/:LeagueId/:SeasonName", async (req, res, next) => {
     try {
-
         const teams_details = await teams_utils.getTeams(req.params.LeagueId);
-        const match_policy = await league_utils.getLeaguePolicy(req.params.LeagueId);
-        if (match_policy[0].matchesPolicy == 1) {
-            await setByPolicy(1, teams_details);
+        const match_policy = await seasons_utils.getSeasonPolicy(req.params.SeasonName, req.params.LeagueId);
+        if (matches_policy.length == 0){
+            throw { status: 400, message: "No policy for the season" };
+        }
+        let season_name = req.params.SeasonName;
+        const matches_by_season_and_league = await matches_utils.getMatchesByseason(season_name, req.params.LeagueId);
+        if (matches_by_season_and_league.length > 0) {
+            throw { status: 400, message: "the matches have already been calendered" };
+        }
+        var result;
+        if (match_policy[0].matches_policy == 1) {
+            result = await setByPolicy(1, teams_details, req.params.LeagueId, req.params.SeasonName);
         }
         else {
-            await setByPolicy(0, teams_details);
+            result = await setByPolicy(0, teams_details, req.params.LeagueId, req.params.SeasonName);
         }
-        res.send(200);
+        if (result == 200)
+            res.status(201).send("matches was added successfully!");
+        else
+            res.status(400).send("Couldn't organize match!");
     } catch (error) {
         next(error);
     }
 });
 
-async function setByPolicy(start_index, teams_details) {
+async function setByPolicy(start_index, teams_details, leegue_id, season_name) {
+    // let season = await seasons_utils.getSeason(season_name);
+    let season_year = season_name.substring(0, 4);
     var date = new Date();
-    var year = date.getFullYear();
+    var current_year = date.getFullYear();
+    if (season_year < current_year) {
+        return 1;
+    }
     var dateMonth = date.getMonth() + 1;
     var month = 9;
     if (dateMonth > month) {
-        year = year + 1;
+        return 1;
+        //current_year = current_year + 1;
     }
     var hours = 19;
-    var match_date = new Date(year, month - 1, date.getDate(), hours, 0, 0, 0);
-    var stadium;
-    var home_team;
-    var out_team;
-    var index_home;
-    var index_out;
+    var match_date = new Date(current_year, month - 1, date.getDate(), hours, 0, 0, 0);
+    var stadium, home_team, out_team, index_home, index_out;
     for (index_home = 0; index_home < teams_details.length; index_home++) {
         if (start_index == 0) {
             end_index = index_home;
@@ -134,9 +142,10 @@ async function setByPolicy(start_index, teams_details) {
                     out_team = teams_details[index_home].team_id;
                     stadium = teams_details[index_out].stadium;
                 }
-                await matches_utils.setMatch(home_team, out_team, mySQLDateString2, stadium);
+                await matches_utils.setMatch(home_team, out_team, mySQLDateString2, stadium, season_name, leegue_id);
             }
         }
     }
+    return 200;
 }
 module.exports = router;
