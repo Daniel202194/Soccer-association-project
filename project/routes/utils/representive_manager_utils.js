@@ -1,8 +1,5 @@
 const DButils = require("./DButils");
 
-
-///maybe change the manager to representative
-///////////////////////////////////change
 async function getRFA() {
     const rfa = await DButils.execQuery(
         `select username from dbo.users where username = 'daniel'`
@@ -23,18 +20,13 @@ async function addRefereesToMatch(main_referee_id, first_line_referee_id, second
     );
     ////get all the games that the referee in there and collide in the date of the current game 
     for (let i = 0; i < referee_in_matches.length; i++) {
-        if (referee_in_matches[i].match_date.getYear() == date_future_match.getYear() &&
-            referee_in_matches[i].match_date.getMonth() == date_future_match.getMonth() &&
-            referee_in_matches[i].match_date.getDay() == date_future_match.getDay()) {
-            if (referee_in_matches[i].main_referee == main_referee_id) {
+        if (await isRefereeBusy(referee_in_matches[i], date_future_match[0].match_date) === true) {
+            if (referee_in_matches[i].main_referee == main_referee_id)
                 return 0; ////the main referee is in other game
-            }
-            else if (referee_in_matches[i].first_line_referee == first_line_referee_id || referee_in_matches[i].first_line_referee == second_line_referee_id) {
-                return 1;  ////the first line referee is in other game
-            }
-            else {
+            else if (referee_in_matches[i].first_line_referee == first_line_referee_id || referee_in_matches[i].first_line_referee == second_line_referee_id)
+                return 1;  ////the first line referee is in other game          
+            else
                 return 2;  ////the second line referee is in other game
-            }
         }
     }
     await DButils.execQuery(
@@ -44,6 +36,18 @@ async function addRefereesToMatch(main_referee_id, first_line_referee_id, second
     );
     return 3;
 }
+
+async function isRefereeBusy(match, date_future_match) {
+    if (match.match_date.getFullYear() == date_future_match.getFullYear() && match.match_date.getMonth() == date_future_match.getMonth() &&
+    match.match_date.getDay() == date_future_match.getDay()) {
+        return true;
+    }
+    return false;
+}
+
+
+
+
 
 exports.getRFA = getRFA;
 exports.addRefereesToMatch = addRefereesToMatch;
