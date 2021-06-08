@@ -1,7 +1,5 @@
 var express = require("express");
 var router = express.Router();
-const DButils = require("./utils/DButils");
-const players_utils = require("./utils/players_utils");
 const referee_utils = require("./utils/referee_utils");
 const teams_utils = require("./utils/teams_utils");
 const matches_utils = require("./utils/matches_utils.js");
