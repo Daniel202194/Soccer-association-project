@@ -9,16 +9,22 @@ async function getRFA() {
 
 async function addRefereesToMatch(main_referee_id, first_line_referee_id, second_line_referee_id, match_id) {
     ///get all matches the referee is in 
-    let sw = isRefereeBusy("sdf", "ttt");
-    const referee_in_matches = await DButils.execQuery(
-        `select match_id,match_date,main_referee,first_line_referee,second_line_referee from dbo.matches where 
-        main_referee = '${main_referee_id}' OR first_line_referee = '${first_line_referee_id}' OR second_line_referee = '${first_line_referee_id}'
-        OR first_line_referee = '${second_line_referee_id}' OR second_line_referee = '${second_line_referee_id}'`
-    );
-    ////get the date of the match that the representator want to add the referee there
-    const date_future_match = await DButils.execQuery(
-        `select match_date from dbo.matches where match_id = '${match_id}'`
-    );
+    
+   
+    // let r = new Date('2021-10-13');
+    // const rr = await DButils.execQuery(
+    //     `select match_id from dbo.matches WHERE 
+    //     home_team = 2 and out_team = 3 AND league_id = 1 and season_name = '2022-2023'`
+    // );
+    // const referee_in_matches = await DButils.execQuery(
+    //     `select match_id,match_date,main_referee,first_line_referee,second_line_referee from dbo.matches where 
+    //     main_referee = '${main_referee_id}' OR first_line_referee = '${first_line_referee_id}' OR second_line_referee = '${first_line_referee_id}'
+    //     OR first_line_referee = '${second_line_referee_id}' OR second_line_referee = '${second_line_referee_id}'`
+    // );
+    // ////get the date of the match that the representator want to add the referee there
+    // const date_future_match = await DButils.execQuery(
+    //     `select match_date from dbo.matches where match_id = '${match_id}'`
+    // );
 
     if (date_future_match.length == 0) {
         return -1;
