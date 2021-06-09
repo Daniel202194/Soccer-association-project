@@ -30,6 +30,15 @@ router.use(async function (req, res, next) {
 router.post("/addRefereesToMatch", async (req, res, next) => {
 
     try {
+        // let x= new Date('2021-04-15');
+        // const date_future_match = await DButils.execQuery(
+        //     `select match_date from dbo.matches where match_id = 125`
+        // );
+        // const t = await DButils.execQuery(
+        //     `update matches 
+        //     set match_date = '2021-04-15'
+        //     where match_id = 125`
+        // );
         ///check if there is a referee
         const main_referee = await referee_utils.getReferee(req.body.mainUserName);
         const first_referee = await referee_utils.getReferee(req.body.firstUserName);
@@ -62,6 +71,7 @@ router.post("/addRefereesToMatch", async (req, res, next) => {
         }
 
         const match_id = req.body.match_id;
+        
         const result = await representive_manager_utils.addRefereesToMatch(main_referee[0].referee_id, first_referee[0].referee_id, second_referee[0].referee_id, match_id);
         if (result == 0)
             throw { status: 401, message: "main referee cannot be in two matches in same day" };
@@ -69,6 +79,8 @@ router.post("/addRefereesToMatch", async (req, res, next) => {
             throw { status: 401, message: "first line referee cannot be in two matches in same day" };
         else if (result == 2)
             throw { status: 401, message: "second line referee cannot be in two matches in same day" };
+        else if (result == -1)
+            throw { status: 401, message: "match does not exists!" };
         else
             res.status(201).send("Referees was add successfully to the match");
     } catch (error) {

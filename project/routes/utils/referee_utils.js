@@ -6,6 +6,7 @@ async function getReferee(userName) {
           `SELECT referee_id,type FROM dbo.referee WHERE username = '${userName}'`
         )
     );
+    
   return referee;
 }
 
