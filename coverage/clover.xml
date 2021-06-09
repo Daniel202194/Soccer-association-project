@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1623267471290" clover="3.2.0">
-  <project timestamp="1623267471291" name="All files">
-    <metrics statements="240" coveredstatements="224" conditionals="135" coveredconditionals="119" methods="24" coveredmethods="20" elements="399" coveredelements="363" complexity="0" loc="240" ncloc="240" packages="3" files="13" classes="13"/>
+<coverage generated="1623267745932" clover="3.2.0">
+  <project timestamp="1623267745932" name="All files">
+    <metrics statements="239" coveredstatements="223" conditionals="135" coveredconditionals="119" methods="24" coveredmethods="20" elements="398" coveredelements="362" complexity="0" loc="239" ncloc="239" packages="3" files="12" classes="12"/>
     <package name="project">
       <metrics statements="42" coveredstatements="37" conditionals="10" coveredconditionals="6" methods="6" coveredmethods="3"/>
       <file name="main.js" path="C:\Users\User\Desktop\Soccer-association-project\project\main.js">
@@ -51,7 +51,7 @@
       </file>
     </package>
     <package name="project.routes">
-      <metrics statements="123" coveredstatements="116" conditionals="61" coveredconditionals="54" methods="8" coveredmethods="7"/>
+      <metrics statements="122" coveredstatements="115" conditionals="61" coveredconditionals="54" methods="8" coveredmethods="7"/>
       <file name="auth.js" path="C:\Users\User\Desktop\Soccer-association-project\project\routes\auth.js">
         <metrics statements="17" coveredstatements="17" conditionals="4" coveredconditionals="4" methods="2" coveredmethods="2"/>
         <line num="1" count="1" type="stmt"/>
@@ -178,10 +178,9 @@
         <line num="155" count="1" type="stmt"/>
       </file>
       <file name="teams.js" path="C:\Users\User\Desktop\Soccer-association-project\project\routes\teams.js">
-        <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
-        <line num="3" count="1" type="stmt"/>
         <line num="17" count="1" type="stmt"/>
       </file>
       <file name="users.js" path="C:\Users\User\Desktop\Soccer-association-project\project\routes\users.js">
@@ -233,9 +232,6 @@
         <line num="51" count="3" type="stmt"/>
         <line num="53" count="3" type="stmt"/>
         <line num="54" count="3" type="stmt"/>
-      </file>
-      <file name="players_utils.js" path="C:\Users\User\Desktop\Soccer-association-project\project\routes\utils\players_utils.js">
-        <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
       </file>
       <file name="referee_utils.js" path="C:\Users\User\Desktop\Soccer-association-project\project\routes\utils\referee_utils.js">
         <metrics statements="6" coveredstatements="6" conditionals="4" coveredconditionals="4" methods="1" coveredmethods="1"/>
