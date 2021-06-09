@@ -13,7 +13,11 @@ async function getMatch(match_id) {
   return match;
 }
 
+<<<<<<< HEAD
 // async function getMaches() {
+=======
+// async function getMacthes() {
+>>>>>>> 9690d640488af740609ae725f7cb8d69d970076e
 //   let matches = (
 //     await DButils.execQuery("SELECT * FROM dbo.matches")
 //   );
@@ -32,6 +36,10 @@ async function setMatch(home_team, out_team, match_date, stadium, season_name, l
 }
 
 exports.setMatch = setMatch;
+<<<<<<< HEAD
 // exports.getMaches = getMaches;
+=======
+// exports.getMacthes = getMacthes;
+>>>>>>> 9690d640488af740609ae725f7cb8d69d970076e
 exports.getMatch = getMatch;
 exports.getMatchesByseason = getMatchesByseason;

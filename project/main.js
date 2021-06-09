@@ -1,6 +1,6 @@
 //#region global imports
 const DButils = require("./routes/utils/DButils");
-const axios = require("axios");
+
 const bcrypt = require("bcryptjs");
 require("dotenv").config();
 //#endregion
@@ -97,3 +97,5 @@ const server = app.listen(port, () => {
 //     server.close(() => console.log("server closed"));
 //   }
 // });
+
+module.exports = app ;

@@ -5,7 +5,6 @@ const DButils = require("./utils/DButils");
 const referee_utils = require("./utils/referee_utils");
 const teams_utils = require("./utils/teams_utils");
 const matches_utils = require("./utils/matches_utils.js");
-const league_utils = require("./utils/league_utils.js");
 const seasons_utils = require("./utils/seasons_utils.js");
 
 const representive_manager_utils = require("./utils/representive_manager_utils");
@@ -53,7 +52,11 @@ router.post("/addRefereesToMatch", async (req, res, next) => {
         if (first_referee[0].referee_id == second_referee[0].referee_id)
             throw { status: 404, message: "Can not choose same line referee" };
         
+<<<<<<< HEAD
         const match = await matches_utils.getMatch(parseInt(req.body.match_id));
+=======
+        const match = await matches_utils.getMatch(req.body.match_id);
+>>>>>>> 9690d640488af740609ae725f7cb8d69d970076e
         if (match.length == 0) {
             throw { status: 401, message: "match does not exist" };
         }
@@ -61,12 +64,19 @@ router.post("/addRefereesToMatch", async (req, res, next) => {
         const today = new Date(timeElapsed);
         const date_today = today.toISOString().slice(0, 16).replace('T', ' ');
         const date_match = match[0].match_date.toISOString().slice(0, 16).replace('T', ' ');
+<<<<<<< HEAD
         // let tt = match.match_date;
+=======
+
+>>>>>>> 9690d640488af740609ae725f7cb8d69d970076e
         if (date_today > date_match) {
             throw { status: 401, message: "match has already been played" };
         }
         
+<<<<<<< HEAD
 
+=======
+>>>>>>> 9690d640488af740609ae725f7cb8d69d970076e
         if (match[0].main_referee != null || match[0].first_line_referee != null || match[0].second_line_referee != null) {
             throw { status: 401, message: "There is already placed referee to this match" };
         }
@@ -84,6 +94,7 @@ router.post("/addRefereesToMatch", async (req, res, next) => {
             throw { status: 401, message: "match does not exists!" };
         else
             res.status(201).send("Referees was add successfully to the match");
+
     } catch (error) {
         next(error);
     }
