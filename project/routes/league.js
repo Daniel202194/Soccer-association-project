@@ -12,3 +12,4 @@ router.get("/getDetails", async (req, res, next) => {
 });
 
 module.exports = router;
+

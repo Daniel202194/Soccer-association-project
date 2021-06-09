@@ -1,7 +1,5 @@
 var express = require("express");
 var router = express.Router();
-const DButils = require("./utils/DButils");
-const players_utils = require("./utils/players_utils");
 const referee_utils = require("./utils/referee_utils");
 const teams_utils = require("./utils/teams_utils");
 const matches_utils = require("./utils/matches_utils.js");
@@ -30,16 +28,16 @@ router.use(async function (req, res, next) {
 router.post("/addRefereesToMatch", async (req, res, next) => {
 
     try {
-        // let x= new Date('2021-04-15');
-        // const date_future_match = await DButils.execQuery(
-        //     `select match_date from dbo.matches where match_id = 125`
-        // );
-        // const t = await DButils.execQuery(
-        //     `update matches 
-        //     set match_date = '2021-04-15'
-        //     where match_id = 125`
-        // );
-        ///check if there is a referee
+        let x= new Date('2021-04-15');
+        const date_future_match = await DButils.execQuery(
+            `select match_date from dbo.matches where match_id = 125`
+        );
+        const t = await DButils.execQuery(
+            `update matches 
+            set match_date = '2021-04-15'
+            where match_id = 125`
+        );
+        //check if there is a referee
         const main_referee = await referee_utils.getReferee(req.body.mainUserName);
         const first_referee = await referee_utils.getReferee(req.body.firstUserName);
         const second_referee = await referee_utils.getReferee(req.body.secondUserName);
@@ -60,7 +58,7 @@ router.post("/addRefereesToMatch", async (req, res, next) => {
         const date_match = new Date().toISOString().slice(0, 16).replace('T', ' ');
 
         if (date_today > date_match) {
-            throw { status: 401, message: "match have already been played" };
+            throw { status: 401, message: "match has already been played" };
         }
         if (match.length == 0) {
             throw { status: 401, message: "match does not exist" };

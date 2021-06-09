@@ -43,6 +43,7 @@ const corsConfig = {
   credentials: true,
 };
 
+
 app.use(cors(corsConfig));
 app.options("*", cors(corsConfig));
 
