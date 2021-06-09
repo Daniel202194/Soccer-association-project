@@ -122,12 +122,12 @@ async function setByPolicy(start_index, teams_details, leegue_id, season_name) {
     var date = new Date();
     var current_year = date.getFullYear();
     if (season_year < current_year) {
-        return 1;
+        return 400;
     }
     var dateMonth = date.getMonth() + 1;
     var month = 9;
     if (dateMonth > month) {
-        return 1;
+        return 400;
         //current_year = current_year + 1;
     }
     var hours = 19;
@@ -140,9 +140,10 @@ async function setByPolicy(start_index, teams_details, leegue_id, season_name) {
         else {
             end_index = 0;
         }
+        var res = 200;
         for (index_out = index_home + start_index - end_index; index_out < teams_details.length; index_out++) {
             if (index_home != index_out) {
-
+                
                 var match_date = new Date(match_date.getTime() + (7 * 24 * 60 * 60 * 1000));
                 const mySQLDateString2 = match_date.toJSON().slice(0, 19);
                 if (index_out % 2 == 0 || start_index == 0) {
@@ -155,10 +156,11 @@ async function setByPolicy(start_index, teams_details, leegue_id, season_name) {
                     out_team = teams_details[index_home].team_id;
                     stadium = teams_details[index_out].stadium;
                 }
-                await matches_utils.setMatch(home_team, out_team, mySQLDateString2, stadium, season_name, leegue_id);
+               res = await matches_utils.setMatch(home_team, out_team, mySQLDateString2, stadium, season_name, leegue_id);
             }
         }
     }
-    return 200;
+    return res;
 }
 module.exports = router;
+exports.setByPolicy = setByPolicy;

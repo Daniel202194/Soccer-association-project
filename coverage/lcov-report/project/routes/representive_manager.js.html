@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">49.47% </span>
+                <span class="strong">49.48% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>47/95</span>
+                <span class='fraction'>48/97</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">49.47% </span>
+                <span class="strong">49.48% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>47/95</span>
+                <span class='fraction'>48/97</span>
             </div>
         
             
@@ -210,7 +210,8 @@
 <a name='L151'></a><a href='#L151'>151</a>
 <a name='L152'></a><a href='#L152'>152</a>
 <a name='L153'></a><a href='#L153'>153</a>
-<a name='L154'></a><a href='#L154'>154</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L154'></a><a href='#L154'>154</a>
+<a name='L155'></a><a href='#L155'>155</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -343,6 +344,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -363,7 +365,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">var express = require("express");
+<span class="cline-any cline-yes">1x</span></td><td class="text"><pre class="prettyprint lang-js">var express = require("express");
 var router = express.Router();
 const referee_utils = require("./utils/referee_utils");
 const teams_utils = require("./utils/teams_utils");
@@ -476,12 +478,12 @@ async function <span class="fstat-no" title="function not covered" >setByPolicy(
     var date = <span class="cstat-no" title="statement not covered" >new Date();</span>
     var current_year = <span class="cstat-no" title="statement not covered" >date.getFullYear();</span>
 <span class="cstat-no" title="statement not covered" >    if (season_year &lt; current_year) {</span>
-<span class="cstat-no" title="statement not covered" >        return 1;</span>
+<span class="cstat-no" title="statement not covered" >        return 400;</span>
     }
     var dateMonth = <span class="cstat-no" title="statement not covered" >date.getMonth() + 1;</span>
     var month = <span class="cstat-no" title="statement not covered" >9;</span>
 <span class="cstat-no" title="statement not covered" >    if (dateMonth &gt; month) {</span>
-<span class="cstat-no" title="statement not covered" >        return 1;</span>
+<span class="cstat-no" title="statement not covered" >        return 400;</span>
         //current_year = current_year + 1;
     }
     var hours = <span class="cstat-no" title="statement not covered" >19;</span>
@@ -494,9 +496,10 @@ async function <span class="fstat-no" title="function not covered" >setByPolicy(
         else {
 <span class="cstat-no" title="statement not covered" >            end_index = 0;</span>
         }
+        var res = <span class="cstat-no" title="statement not covered" >200;</span>
 <span class="cstat-no" title="statement not covered" >        for (index_out = index_home + start_index - end_index; index_out &lt; teams_details.length; index_out++) {</span>
 <span class="cstat-no" title="statement not covered" >            if (index_home != index_out) {</span>
-&nbsp;
+                
                 var match_date = <span class="cstat-no" title="statement not covered" >new Date(match_date.getTime() + (7 * 24 * 60 * 60 * 1000));</span>
                 const mySQLDateString2 = <span class="cstat-no" title="statement not covered" >match_date.toJSON().slice(0, 19);</span>
 <span class="cstat-no" title="statement not covered" >                if (index_out % 2 == 0 || start_index == 0) {</span>
@@ -509,21 +512,21 @@ async function <span class="fstat-no" title="function not covered" >setByPolicy(
 <span class="cstat-no" title="statement not covered" >                    out_team = teams_details[index_home].team_id;</span>
 <span class="cstat-no" title="statement not covered" >                    stadium = teams_details[index_out].stadium;</span>
                 }
-<span class="cstat-no" title="statement not covered" >                await matches_utils.setMatch(home_team, out_team, mySQLDateString2, stadium, season_name, leegue_id);</span>
+<span class="cstat-no" title="statement not covered" >               res = await matches_utils.setMatch(home_team, out_team, mySQLDateString2, stadium, season_name, leegue_id);</span>
             }
         }
     }
-<span class="cstat-no" title="statement not covered" >    return 200;</span>
+<span class="cstat-no" title="statement not covered" >    return res;</span>
 }
 module.exports = router;
-&nbsp;</pre></td></tr></table></pre>
+exports.setByPolicy = setByPolicy;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Wed Jun 09 2021 14:49:24 GMT+0300 (שעון ישראל (קיץ))
+                at Wed Jun 09 2021 15:08:42 GMT+0300 (שעון ישראל (קיץ))
             </div>
         </div>
         <script src="../../prettify.js"></script>

@@ -28,8 +28,18 @@ async function getMatchesByseason(season_name, league_id) {
 }
 
 async function setMatch(home_team, out_team, match_date, stadium, season_name, league_id) {
+  if ((typeof home_team != 'integer')||(typeof out_team != 'integer')||(typeof match_date != 'datetime') ||
+      (typeof stadium != 'string') || (typeof season_name != 'string')||(typeof league_id != 'integer')){
+    return 400;
+  }
+      
   await DButils.execQuery(`INSERT INTO dbo.matches (match_date, stadium,home_team, out_team, league_id, season_name) values ('${match_date}','${stadium}','${home_team}','${out_team}','${league_id}','${season_name}')`)
+<<<<<<< HEAD
+=======
+  return 200;
+>>>>>>> 5269d8f8fdd54e9cc7ac458f6ea5eff628b2cc1f
 }
+
 
 exports.setMatch = setMatch;
 // exports.getMacthes = getMacthes;
