@@ -66,8 +66,8 @@ router.post("/addRefereesToMatch", async (req, res, next) => {
             throw { status: 401, message: "first line referee cannot be in two matches in same day" };
         else if (result == 2)
             throw { status: 401, message: "second line referee cannot be in two matches in same day" };
-        else if (result == -1)
-            throw { status: 401, message: "match does not exists!" };
+        // else if (result == -1)
+        //     throw { status: 401, message: "match does not exists!" };
         else
             res.status(201).send("Referees was add successfully to the match");
 
@@ -91,10 +91,10 @@ router.post("/setMatches", async (req, res, next) => {
         }
         var result;
         if (match_policy[0].matches_policy == 1) {
-            result = await setByPolicy(1, teams_details, req.body.LeagueId, req.body.SeasonName);
+            result = await representive_manager_utils.setByPolicy(1, teams_details, req.body.LeagueId, req.body.SeasonName);
         }
-        else {
-            result = await setByPolicy(0, teams_details, req.body.LeagueId, req.body.SeasonName);
+        else if (match_policy[0].matches_policy == 2){
+            result = await representive_manager_utils.setByPolicy(0, teams_details, req.body.LeagueId, req.body.SeasonName);
         }
         if (result == 200)
             res.status(201).send("matches was added successfully!");
@@ -105,51 +105,5 @@ router.post("/setMatches", async (req, res, next) => {
     }
 });
 
-async function setByPolicy(start_index, teams_details, leegue_id, season_name) {
-    // let season = await seasons_utils.getSeason(season_name);
-    let season_year = season_name.substring(0, 4);
-    var date = new Date();
-    var current_year = date.getFullYear();
-    if (parseInt(season_year) < current_year) {
-        return 400;
-    }
-    var dateMonth = date.getMonth() + 1;
-    var month = 5;
-    if (dateMonth > month && parseInt(season_year) <= current_year) {
-        return 400;
-        //current_year = current_year + 1;
-    }
-    var hours = 19;
-    var match_date = new Date(current_year, month - 1, date.getDate(), hours, 0, 0, 0);
-    var stadium, home_team, out_team, index_home, index_out;
-    for (index_home = 0; index_home < teams_details.length; index_home++) {
-        if (start_index == 0) {
-            end_index = index_home;
-        }
-        else {
-            end_index = 0;
-        }
-        var res = 200;
-        for (index_out = index_home + start_index - end_index; index_out < teams_details.length; index_out++) {
-            if (index_home != index_out) {
-                
-                var match_date = new Date(match_date.getTime() + (7 * 24 * 60 * 60 * 1000));
-                //const mySQLDateString2 = match_date.toJSON().slice(0, 19);
-                if (index_out % 2 == 0 || start_index == 0) {
-                    home_team = teams_details[index_home].team_id;
-                    out_team = teams_details[index_out].team_id;
-                    stadium = teams_details[index_home].stadium;
-                }
-                else {
-                    home_team = teams_details[index_out].team_id;
-                    out_team = teams_details[index_home].team_id;
-                    stadium = teams_details[index_out].stadium;
-                }
-               res = await matches_utils.setMatch(home_team, out_team, match_date, stadium, season_name, leegue_id);
-            }
-        }
-    }
-    return res;
-}
+
 module.exports = router;
-exports.setByPolicy = setByPolicy;
