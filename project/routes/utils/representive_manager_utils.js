@@ -18,7 +18,7 @@ async function addRefereesToMatch(main_referee_id, first_line_referee_id, second
     const date_future_match = await DButils.execQuery(
         `select match_date from dbo.matches where match_id = '${match_id}'`
     );
-    if(date_future_match.length == 0){
+    if (date_future_match.length == 0) {
         return -1;
     }
 
@@ -44,14 +44,17 @@ async function addRefereesToMatch(main_referee_id, first_line_referee_id, second
 async function isRefereeBusy(match_date, date_future_match) {
     if (match_date == null || date_future_match == null || match_date == '' || date_future_match == '')
         return "Missing field, make sure you entered: match in type match and date_future_match in type Date";
-        if (!date_future_match instanceof Date || !match_date instanceof Date || isNaN(match_date.getTime()) || isNaN(date_future_match.getTime()))
-        return "make sure you entered: date_future_match in type Date";
 
-    if (match_date.getFullYear() == date_future_match.getFullYear() && match_date.getMonth() == date_future_match.getMonth() &&
-    match_date.getDate() == date_future_match.getDate()) {
-        return true;
+    if (date_future_match instanceof Date && match_date instanceof Date && !isNaN(match_date.getTime()) && !isNaN(date_future_match.getTime())) {
+        if (match_date.getFullYear() == date_future_match.getFullYear() && match_date.getMonth() == date_future_match.getMonth() &&
+            match_date.getDate() == date_future_match.getDate()) {
+            return true;
+        }
     }
+    else
+        return "make sure you entered: date_future_match in type Date";
     return false;
+
 }
 
 

@@ -24,11 +24,13 @@ describe('Checker entered correct data to getMatch - unit tests', () => {
         expect(result1).toBe("Missing field, make sure you entered: match_id in type integer");
         const result2 = await getMatch("sdsg");
         expect(result2).toBe("Missing field, make sure you entered: match_id in type integer");
+        const result3 = await getMatch("125s");
+        expect(result3).toBe("Missing field, make sure you entered: match_id in type integer");
     });
 
     test('Successfully, No details are missing for getMatch', async () =>
     {
-        const result = await getMatch(71);
+        const result = await getMatch(120);
         expect(result[0].length).not.toBe(0);
     });
 });
@@ -42,8 +44,8 @@ describe('Checker entered correct data to isRefereeBusy - unit tests', () => {
         expect(result2).toBe("Missing field, make sure you entered: match in type match and date_future_match in type Date");
         const result3 = await isRefereeBusy("sdsg","");
         expect(result3).toBe("Missing field, make sure you entered: match in type match and date_future_match in type Date");
-        // const result4 = await isRefereeBusy("sdsg","vcvcx");
-        // expect(result4).toBe("Missing field, make sure you entered: match in type match and date_future_match in type Date");
+        const result4 = await isRefereeBusy("sdsFDF456g","6666vcvcx");
+        expect(result4).toBe("make sure you entered: date_future_match in type Date");
         // const result4 = await isRefereeBusy('sdsg','1');
         // expect(result4).toBe("Missing field, make sure you entered: match in type match and date_future_match in type Date");
     });

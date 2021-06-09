@@ -1,7 +1,7 @@
 const DButils = require("./DButils");
 
 async function getMatch(match_id) {
-  if(match_id == null || match_id == "" || match_id != parseInt(10)){
+  if(match_id == null || match_id == "" || match_id != parseInt(match_id)){
     return "Missing field, make sure you entered: match_id in type integer";
   }
   const match = (
@@ -13,12 +13,12 @@ async function getMatch(match_id) {
   return match;
 }
 
-async function getMaches() {
-  let matches = (
-    await DButils.execQuery("SELECT * FROM dbo.matches")
-  );
-  return (matches);
-}
+// async function getMacthes() {
+//   let matches = (
+//     await DButils.execQuery("SELECT * FROM dbo.matches")
+//   );
+//   return (matches);
+// }
 
 async function getMatchesByseason(season_name, league_id) {
   let matches = (
@@ -33,6 +33,6 @@ async function setMatch(home_team, out_team, match_date, stadium, season_name, l
 }
 
 exports.setMatch = setMatch;
-exports.getMaches = getMaches;
+// exports.getMacthes = getMacthes;
 exports.getMatch = getMatch;
 exports.getMatchesByseason = getMatchesByseason;

@@ -42,18 +42,18 @@ router.post("/addRefereesToMatch", async (req, res, next) => {
             throw { status: 404, message: "Can not choose same line referee" };
         
         const match = await matches_utils.getMatch(req.body.match_id);
-        const timeElapsed = Date.now();
-        const today = new Date(timeElapsed);
-        const date_today = today.toISOString().slice(0, 16).replace('T', ' ');
-        const date_match = new Date().toISOString().slice(0, 16).replace('T', ' ');
-
-        if (date_today > date_match) {
-            throw { status: 401, message: "match have already been played" };
-        }
         if (match.length == 0) {
             throw { status: 401, message: "match does not exist" };
         }
+        const timeElapsed = Date.now();
+        const today = new Date(timeElapsed);
+        const date_today = today.toISOString().slice(0, 16).replace('T', ' ');
+        const date_match = match[0].match_date.toISOString().slice(0, 16).replace('T', ' ');
 
+        if (date_today > date_match) {
+            throw { status: 401, message: "match has already been played" };
+        }
+        
         if (match[0].main_referee != null || match[0].first_line_referee != null || match[0].second_line_referee != null) {
             throw { status: 401, message: "There is already placed referee to this match" };
         }
