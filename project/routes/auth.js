@@ -3,7 +3,7 @@ var router = express.Router();
 const DButils = require("../routes/utils/DButils");
 const bcrypt = require("bcryptjs");
 
-var referee_id_counter = 1;
+// var referee_id_counter = 1;
 // router.post("/addReferees", async (req, res, next) => {
 //   var type;
 //   var j;
@@ -199,9 +199,9 @@ router.post("/Login", async (req, res, next) => {
   }
 });
 
-// router.post("/Logout", function (req, res) {
-//   req.session.reset(); // reset the session info --> send cookie when  req.session == undefined!!
-//   res.send({ success: true, message: "logout succeeded" });
-// });
+router.post("/Logout", function (req, res) {
+  req.session.reset(); // reset the session info --> send cookie when  req.session == undefined!!
+  res.send({ success: true, message: "logout succeeded" });
+});
 
 module.exports = router;

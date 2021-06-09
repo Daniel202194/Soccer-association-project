@@ -1,5 +1,5 @@
-const axios = require("axios");
-const api_domain = "https://soccer.sportmonks.com/api/v2.0";
+// const axios = require("axios");
+// const api_domain = "https://soccer.sportmonks.com/api/v2.0";
 // const TEAM_ID = "85";
 
 // async function getPlayerIdsByTeam(team_id) {

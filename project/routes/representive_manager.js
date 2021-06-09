@@ -77,24 +77,24 @@ router.post("/addRefereesToMatch", async (req, res, next) => {
 });
 
 
-router.get("/setMatches/:LeagueId/:SeasonName", async (req, res, next) => {
+router.post("/setMatches", async (req, res, next) => {
     try {
-        const teams_details = await teams_utils.getTeams(req.params.LeagueId);
-        const match_policy = await seasons_utils.getSeasonPolicy(req.params.SeasonName, req.params.LeagueId);
-        if (matches_policy.length == 0){
+        const teams_details = await teams_utils.getTeams(req.body.LeagueId);
+        const match_policy = await seasons_utils.getSeasonPolicy(req.body.SeasonName, req.body.LeagueId);
+        if (match_policy.length == 0){
             throw { status: 400, message: "No policy for the season" };
         }
-        let season_name = req.params.SeasonName;
-        const matches_by_season_and_league = await matches_utils.getMatchesByseason(season_name, req.params.LeagueId);
+        let season_name = req.body.SeasonName;
+        const matches_by_season_and_league = await matches_utils.getMatchesByseason(season_name, req.body.LeagueId);
         if (matches_by_season_and_league.length > 0) {
             throw { status: 400, message: "the matches have already been calendered" };
         }
         var result;
         if (match_policy[0].matches_policy == 1) {
-            result = await setByPolicy(1, teams_details, req.params.LeagueId, req.params.SeasonName);
+            result = await setByPolicy(1, teams_details, req.body.LeagueId, req.body.SeasonName);
         }
         else {
-            result = await setByPolicy(0, teams_details, req.params.LeagueId, req.params.SeasonName);
+            result = await setByPolicy(0, teams_details, req.body.LeagueId, req.body.SeasonName);
         }
         if (result == 200)
             res.status(201).send("matches was added successfully!");
@@ -110,12 +110,12 @@ async function setByPolicy(start_index, teams_details, leegue_id, season_name) {
     let season_year = season_name.substring(0, 4);
     var date = new Date();
     var current_year = date.getFullYear();
-    if (season_year < current_year) {
+    if (parseInt(season_year) < current_year) {
         return 400;
     }
     var dateMonth = date.getMonth() + 1;
-    var month = 9;
-    if (dateMonth > month) {
+    var month = 5;
+    if (dateMonth > month && parseInt(season_year) <= current_year) {
         return 400;
         //current_year = current_year + 1;
     }
@@ -134,7 +134,7 @@ async function setByPolicy(start_index, teams_details, leegue_id, season_name) {
             if (index_home != index_out) {
                 
                 var match_date = new Date(match_date.getTime() + (7 * 24 * 60 * 60 * 1000));
-                const mySQLDateString2 = match_date.toJSON().slice(0, 19);
+                //const mySQLDateString2 = match_date.toJSON().slice(0, 19);
                 if (index_out % 2 == 0 || start_index == 0) {
                     home_team = teams_details[index_home].team_id;
                     out_team = teams_details[index_out].team_id;
@@ -145,7 +145,7 @@ async function setByPolicy(start_index, teams_details, leegue_id, season_name) {
                     out_team = teams_details[index_home].team_id;
                     stadium = teams_details[index_out].stadium;
                 }
-               res = await matches_utils.setMatch(home_team, out_team, mySQLDateString2, stadium, season_name, leegue_id);
+               res = await matches_utils.setMatch(home_team, out_team, match_date, stadium, season_name, leegue_id);
             }
         }
     }

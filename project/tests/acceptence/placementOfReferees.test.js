@@ -4,8 +4,6 @@ const app = require('../../main')
 const DButils = require("../../routes/utils/DButils");
 let sessionTest = null;
 
-//let token;
-
 beforeEach(function(){
     sessionTest = session(app);
 });
@@ -27,6 +25,12 @@ async function aaaa(){
     });
 }
 
+
+
+async function Logout(){
+    await sessionTest.post("/Logout");
+}
+
 afterEach(async() => {
     await DButils.execQuery(
         `update dbo.matches
@@ -43,6 +47,9 @@ afterEach(async() => {
          set main_referee = null , first_line_referee = null , second_line_referee = null 
          where match_id = 119`
     );
+   Logout();
+   sessionTest = null;
+
 });
 
 
@@ -102,18 +109,18 @@ describe('Tests to UC Referee Placement', () => {
    
     });
 
-    test('Can not choose same line referee', async () => {
-        await aaaa();
-        const ans = await sessionTest.post('/representive_manager/addRefereesToMatch') 
-        .send({
-            mainUserName: "referee_13",
-            firstUserName: "referee_14",
-            secondUserName: "referee_14",
-            match_id: 126              
-        })
-        expect(ans.status).toEqual(404);
-        expect(ans.text).toEqual("Can not choose same line referee");
-    });
+    // test('Can not choose same line referee', async () => {
+    //     await aaaa();
+    //     const ans = await sessionTest.get('/representive_manager/setMatches/:LeagueId/:SeasonName') 
+    //     .send({
+    //         mainUserName: "referee_13",
+    //         firstUserName: "referee_14",
+    //         secondUserName: "referee_14",
+    //         match_id: 126              
+    //     })
+    //     expect(ans.status).toEqual(404);
+    //     expect(ans.text).toEqual("Can not choose same line referee");
+    // });
 
     test('match has already been played', async () => {
         await aaaa();
