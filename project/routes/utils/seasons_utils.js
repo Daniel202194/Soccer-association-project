@@ -4,12 +4,12 @@ const DButils = require("./DButils");
 
 
 
-async function getSeason(season_name) {
-  let season = (
-      await DButils.execQuery(`SELECT * FROM dbo.seasons WHERE season_name='${season_name}'` )
-  );
-  return (season);
-}
+// async function getSeason(season_name) {
+//   let season = (
+//       await DButils.execQuery(`SELECT * FROM dbo.seasons WHERE season_name='${season_name}'` )
+//   );
+//   return (season);
+// }
 
 
 async function getSeasonPolicy(season_name, league_id) {
@@ -22,5 +22,5 @@ async function getSeasonPolicy(season_name, league_id) {
 
 
 
-exports.getSeason = getSeason;
+// exports.getSeason = getSeason;
 exports.getSeasonPolicy = getSeasonPolicy;

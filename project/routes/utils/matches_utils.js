@@ -1,7 +1,7 @@
 const DButils = require("./DButils");
 
 async function getMatch(match_id) {
-  if(match_id == null || match_id == "" || match_id != parseInt(10)){
+  if(match_id == null || match_id == "" || match_id != parseInt(match_id)){
     return "Missing field, make sure you entered: match_id in type integer";
   }
   const match = (
@@ -13,12 +13,12 @@ async function getMatch(match_id) {
   return match;
 }
 
-async function getMaches() {
-  let matches = (
-    await DButils.execQuery("SELECT * FROM dbo.matches")
-  );
-  return (matches);
-}
+// async function getMaches() {
+//   let matches = (
+//     await DButils.execQuery("SELECT * FROM dbo.matches")
+//   );
+//   return (matches);
+// }
 
 async function getMatchesByseason(season_name, league_id) {
   let matches = (
@@ -29,10 +29,9 @@ async function getMatchesByseason(season_name, league_id) {
 
 async function setMatch(home_team, out_team, match_date, stadium, season_name, league_id) {
   await DButils.execQuery(`INSERT INTO dbo.matches (match_date, stadium,home_team, out_team, league_id, season_name) values ('${match_date}','${stadium}','${home_team}','${out_team}','${league_id}','${season_name}')`)
-
 }
 
 exports.setMatch = setMatch;
-exports.getMaches = getMaches;
+// exports.getMaches = getMaches;
 exports.getMatch = getMatch;
 exports.getMatchesByseason = getMatchesByseason;

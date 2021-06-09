@@ -9,7 +9,7 @@ async function getRFA() {
 
 async function addRefereesToMatch(main_referee_id, first_line_referee_id, second_line_referee_id, match_id) {
     ///get all matches the referee is in 
-    
+    let sw = isRefereeBusy("sdf", "ttt");
     const referee_in_matches = await DButils.execQuery(
         `select match_id,match_date,main_referee,first_line_referee,second_line_referee from dbo.matches where 
         main_referee = '${main_referee_id}' OR first_line_referee = '${first_line_referee_id}' OR second_line_referee = '${first_line_referee_id}'
@@ -20,7 +20,7 @@ async function addRefereesToMatch(main_referee_id, first_line_referee_id, second
         `select match_date from dbo.matches where match_id = '${match_id}'`
     );
 
-    if(date_future_match.length == 0){
+    if (date_future_match.length == 0) {
         return -1;
     }
     ////get all the games that the referee in there and collide in the date of the current game 
@@ -44,16 +44,19 @@ async function addRefereesToMatch(main_referee_id, first_line_referee_id, second
 
 async function isRefereeBusy(match_date, date_future_match) {
 
-    match_date = new Date('sghd');
-    date_future_match = new Date('1');
+    match_date = 'sghd';
+    date_future_match = 'ssad';
     if (match_date == null || date_future_match == null || match_date == '' || date_future_match == '')
         return "Missing field, make sure you entered: match in type match and date_future_match in type Date";
-    if (!date_future_match instanceof Date || !match_date instanceof Date || isNaN(match_date.getTime()) || isNaN(date_future_match.getTime()))
-        return "make sure you entered: date_future_match in type Date";
-    if (match_date.getFullYear() == date_future_match.getFullYear() && match_date.getMonth() == date_future_match.getMonth() &&
-    match_date.getDate() == date_future_match.getDate()) {
-        return true;
+
+    if (date_future_match instanceof Date && match_date instanceof Date && !isNaN(match_date.getTime()) && !isNaN(date_future_match.getTime())) {
+        if (match_date.getFullYear() == date_future_match.getFullYear() && match_date.getMonth() == date_future_match.getMonth() &&
+            match_date.getDate() == date_future_match.getDate()) {
+            return true;
+        }
     }
+    else
+        return "make sure you entered: date_future_match in type Date";
     return false;
 }
 

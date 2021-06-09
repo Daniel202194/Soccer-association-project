@@ -1,5 +1,7 @@
 var express = require("express");
 var router = express.Router();
+const DButils = require("./utils/DButils");
+
 const referee_utils = require("./utils/referee_utils");
 const teams_utils = require("./utils/teams_utils");
 const matches_utils = require("./utils/matches_utils.js");
@@ -28,7 +30,7 @@ router.use(async function (req, res, next) {
 router.post("/addRefereesToMatch", async (req, res, next) => {
 
     try {
-        let x= new Date('2021-04-15');
+        // let x= new Date('2021-04-15');
         const date_future_match = await DButils.execQuery(
             `select match_date from dbo.matches where match_id = 125`
         );
@@ -51,18 +53,19 @@ router.post("/addRefereesToMatch", async (req, res, next) => {
         if (first_referee[0].referee_id == second_referee[0].referee_id)
             throw { status: 404, message: "Can not choose same line referee" };
         
-        const match = await matches_utils.getMatch(req.body.match_id);
-        const timeElapsed = Date.now();
-        const today = new Date(timeElapsed);
-        const date_today = today.toISOString().slice(0, 16).replace('T', ' ');
-        const date_match = new Date().toISOString().slice(0, 16).replace('T', ' ');
-
-        if (date_today > date_match) {
-            throw { status: 401, message: "match has already been played" };
-        }
+        const match = await matches_utils.getMatch(parseInt(req.body.match_id));
         if (match.length == 0) {
             throw { status: 401, message: "match does not exist" };
         }
+        const timeElapsed = Date.now();
+        const today = new Date(timeElapsed);
+        const date_today = today.toISOString().slice(0, 16).replace('T', ' ');
+        const date_match = match[0].match_date.toISOString().slice(0, 16).replace('T', ' ');
+        // let tt = match.match_date;
+        if (date_today > date_match) {
+            throw { status: 401, message: "match has already been played" };
+        }
+        
 
         if (match[0].main_referee != null || match[0].first_line_referee != null || match[0].second_line_referee != null) {
             throw { status: 401, message: "There is already placed referee to this match" };
