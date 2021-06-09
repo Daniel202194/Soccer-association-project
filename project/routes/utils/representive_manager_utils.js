@@ -19,17 +19,10 @@ async function addRefereesToMatch(main_referee_id, first_line_referee_id, second
     const date_future_match = await DButils.execQuery(
         `select match_date from dbo.matches where match_id = '${match_id}'`
     );
-<<<<<<< HEAD
 
     if (date_future_match.length == 0) {
         return -1;
     }
-=======
-    if (date_future_match.length == 0) {
-        return -1;
-    }
-
->>>>>>> 9690d640488af740609ae725f7cb8d69d970076e
     ////get all the games that the referee in there and collide in the date of the current game 
     for (let i = 0; i < referee_in_matches.length; i++) {
         if (await isRefereeBusy(referee_in_matches[i].match_date, date_future_match[0].match_date) === true) {
@@ -50,12 +43,6 @@ async function addRefereesToMatch(main_referee_id, first_line_referee_id, second
 }
 
 async function isRefereeBusy(match_date, date_future_match) {
-<<<<<<< HEAD
-
-    match_date = 'sghd';
-    date_future_match = 'ssad';
-=======
->>>>>>> 9690d640488af740609ae725f7cb8d69d970076e
     if (match_date == null || date_future_match == null || match_date == '' || date_future_match == '')
         return "Missing field, make sure you entered: match in type match and date_future_match in type Date";
 

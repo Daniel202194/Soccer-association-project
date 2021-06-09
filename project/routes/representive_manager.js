@@ -52,11 +52,7 @@ router.post("/addRefereesToMatch", async (req, res, next) => {
         if (first_referee[0].referee_id == second_referee[0].referee_id)
             throw { status: 404, message: "Can not choose same line referee" };
         
-<<<<<<< HEAD
         const match = await matches_utils.getMatch(parseInt(req.body.match_id));
-=======
-        const match = await matches_utils.getMatch(req.body.match_id);
->>>>>>> 9690d640488af740609ae725f7cb8d69d970076e
         if (match.length == 0) {
             throw { status: 401, message: "match does not exist" };
         }
@@ -64,19 +60,10 @@ router.post("/addRefereesToMatch", async (req, res, next) => {
         const today = new Date(timeElapsed);
         const date_today = today.toISOString().slice(0, 16).replace('T', ' ');
         const date_match = match[0].match_date.toISOString().slice(0, 16).replace('T', ' ');
-<<<<<<< HEAD
-        // let tt = match.match_date;
-=======
-
->>>>>>> 9690d640488af740609ae725f7cb8d69d970076e
         if (date_today > date_match) {
             throw { status: 401, message: "match has already been played" };
         }
         
-<<<<<<< HEAD
-
-=======
->>>>>>> 9690d640488af740609ae725f7cb8d69d970076e
         if (match[0].main_referee != null || match[0].first_line_referee != null || match[0].second_line_referee != null) {
             throw { status: 401, message: "There is already placed referee to this match" };
         }
