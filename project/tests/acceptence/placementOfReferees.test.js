@@ -1,31 +1,65 @@
-const request = require('supertest')
+const session = require('supertest-session');
+const { response } = require('../../main');
 const app = require('../../main')
-//const request = supertest(main)
+const DButils = require("../../routes/utils/DButils");
+let sessionTest = null;
+
+//let token;
+
+beforeEach(function(){
+    sessionTest = session(app);
+});
+
+// async function a(){
+//     const res = await request(app)
+//     .post('/Login')
+//     .send({
+//       username: "daniel",
+//       password: "daniel",
+//     });
+//     return res;
+// }
+
+async function aaaa(){
+    await sessionTest.post("/Login").send({
+        username: "daniel",
+        password: "daniel",
+    });
+}
+
+afterEach(async() => {
+    await DButils.execQuery(
+        `update dbo.matches
+         set main_referee = null , first_line_referee = null , second_line_referee = null 
+         where match_id = 126`
+    );
+});
 
 
 describe('Tests to UC Referee Placement', () => {
 
     test('Referee placement was successful', async () => {
-        await request(app).post('/representive_manager/addRefereesToMatch')
-            .send({
-                mainUserName: "referee_22",
-                firstUserName: "referee_23",
-                secondUserName: "referee_24",
-                match_id: "88"           
+        await aaaa();
+        await sessionTest.post('/representive_manager/addRefereesToMatch') 
+        .send({
+                mainUserName: "referee_13",
+                firstUserName: "referee_14",
+                secondUserName: "referee_15",
+                match_id: 126          
             })
-            .expect(201)
+        .expect(201)
     });
 
     // test('Rechedule Match succeed', async () => {
-    //     await request.post('/rescheduleMatch')
-    //         .send({
-    //             "season": "league1_2021",
-    //             "home_team": "hapoel tel aviv",
-    //             "away_team": "macabi haifa",
-    //             "new_date": "2020-07-21T20:00:00.000+00:00",
-    //             "new_stadium": "blumfield"            
-    //         })
-    //         .expect(400)
+    //     await aaaa();
+    //     await sessionTest.post('/representive_manager/addRefereesToMatch') 
+    //     .send({
+    //         mainUserName: "referee_13",
+    //         firstUserName: "referee_13",
+    //         secondUserName: "referee_15",
+    //         match_id: 126              
+    //     })
+    //     .expect(400)
     // });
 
     

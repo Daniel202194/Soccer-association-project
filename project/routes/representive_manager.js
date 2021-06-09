@@ -3,7 +3,6 @@ var router = express.Router();
 const referee_utils = require("./utils/referee_utils");
 const teams_utils = require("./utils/teams_utils");
 const matches_utils = require("./utils/matches_utils.js");
-const league_utils = require("./utils/league_utils.js");
 const seasons_utils = require("./utils/seasons_utils.js");
 
 const representive_manager_utils = require("./utils/representive_manager_utils");

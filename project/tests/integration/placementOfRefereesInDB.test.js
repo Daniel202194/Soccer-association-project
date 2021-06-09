@@ -1,17 +1,27 @@
 const { addRefereesToMatch } = require('../../routes/utils/representive_manager_utils.js');
 const { getRFA } = require('../../routes/utils/representive_manager_utils.js');
+const DButils = require("../../routes/utils/DButils");
 
+afterEach(async() => {
+    await DButils.execQuery(
+        `update dbo.matches
+         set main_referee = null , first_line_referee = null , second_line_referee = null 
+         where match_id = 126`
+    );
+});
 
 //to check again
 describe('Adding a referee to a game at DB', () => {
     test('The referee was added successfully', async () =>
     {
-        const result = await addRefereesToMatch(10, 11, 12, 125);
+        const result = await addRefereesToMatch(10, 11, 12, 126);
         expect(result).toBe(3);
     });
     
     test('Failure, the referee was not added', async () =>
     {
+        const result = await addRefereesToMatch(10, 11, 11, 127);
+        expect(result).not.toBe(3);
         const result1 = await addRefereesToMatch(10, 11, 11, 119);
         expect(result1).not.toBe(3);
         const result2 = await addRefereesToMatch(10, 12, 12, 119);

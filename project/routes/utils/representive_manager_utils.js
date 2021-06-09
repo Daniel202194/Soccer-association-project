@@ -24,7 +24,7 @@ async function addRefereesToMatch(main_referee_id, first_line_referee_id, second
 
     ////get all the games that the referee in there and collide in the date of the current game 
     for (let i = 0; i < referee_in_matches.length; i++) {
-        if (await isRefereeBusy(referee_in_matches[i], date_future_match[0].match_date) === true) {
+        if (await isRefereeBusy(referee_in_matches[i].match_date, date_future_match[0].match_date) === true) {
             if (referee_in_matches[i].main_referee == main_referee_id)
                 return 0; ////the main referee is in other game
             else if (referee_in_matches[i].first_line_referee == first_line_referee_id || referee_in_matches[i].first_line_referee == second_line_referee_id)
@@ -41,9 +41,14 @@ async function addRefereesToMatch(main_referee_id, first_line_referee_id, second
     return 3;
 }
 
-async function isRefereeBusy(match, date_future_match) {
-    if (match.match_date.getFullYear() == date_future_match.getFullYear() && match.match_date.getMonth() == date_future_match.getMonth() &&
-    match.match_date.getDay() == date_future_match.getDay()) {
+async function isRefereeBusy(match_date, date_future_match) {
+    if (match_date == null || date_future_match == null || match_date == '' || date_future_match == '')
+        return "Missing field, make sure you entered: match in type match and date_future_match in type Date";
+        if (!date_future_match instanceof Date || !match_date instanceof Date || isNaN(match_date.getTime()) || isNaN(date_future_match.getTime()))
+        return "make sure you entered: date_future_match in type Date";
+
+    if (match_date.getFullYear() == date_future_match.getFullYear() && match_date.getMonth() == date_future_match.getMonth() &&
+    match_date.getDate() == date_future_match.getDate()) {
         return true;
     }
     return false;
@@ -55,3 +60,6 @@ async function isRefereeBusy(match, date_future_match) {
 
 exports.getRFA = getRFA;
 exports.addRefereesToMatch = addRefereesToMatch;
+
+//for the test
+exports.isRefereeBusy = isRefereeBusy;

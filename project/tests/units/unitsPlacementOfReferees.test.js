@@ -1,5 +1,7 @@
 const { getReferee } = require('../../routes/utils/referee_utils');
 const { getMatch } = require('../../routes/utils/matches_utils');
+const { isRefereeBusy } = require('../../routes/utils/representive_manager_utils.js');
+
 
 describe('Checker entered correct data to getReferee - unit tests', () => {
     test('Test missing fields', async () =>
@@ -28,5 +30,28 @@ describe('Checker entered correct data to getMatch - unit tests', () => {
     {
         const result = await getMatch(71);
         expect(result[0].length).not.toBe(0);
+    });
+});
+
+describe('Checker entered correct data to isRefereeBusy - unit tests', () => {
+    test('Test missing fields', async () =>
+    {
+        const result1 = await isRefereeBusy("");
+        expect(result1).toBe("Missing field, make sure you entered: match in type match and date_future_match in type Date");
+        const result2 = await isRefereeBusy("sdsg");
+        expect(result2).toBe("Missing field, make sure you entered: match in type match and date_future_match in type Date");
+        const result3 = await isRefereeBusy("sdsg","");
+        expect(result3).toBe("Missing field, make sure you entered: match in type match and date_future_match in type Date");
+        // const result4 = await isRefereeBusy("sdsg","vcvcx");
+        // expect(result4).toBe("Missing field, make sure you entered: match in type match and date_future_match in type Date");
+        // const result4 = await isRefereeBusy('sdsg','1');
+        // expect(result4).toBe("Missing field, make sure you entered: match in type match and date_future_match in type Date");
+    });
+
+    test('Successfully, No details are missing for getMatch', async () =>
+    {
+        //const date = new Date('2021-09-15');
+        const result = await isRefereeBusy(new Date('2021-09-15') ,new Date('2021-09-15'));
+        expect(result).toBe(true);
     });
 });
