@@ -73,8 +73,8 @@ app.use(function (req, res, next) {
 });
 //#endregion
 
-// ----> For cheking that our server is alive
-app.get("/alive", (req, res) => res.send("I'm alive"));
+// // ----> For cheking that our server is alive
+// app.get("/alive", (req, res) => res.send("I'm alive"));
 
 // Routings
 app.use("/users", users);
