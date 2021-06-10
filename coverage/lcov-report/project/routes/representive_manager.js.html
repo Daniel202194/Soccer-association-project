@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">95.45% </span>
+                <span class="strong">95.59% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>63/66</span>
+                <span class='fraction'>65/68</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">95.45% </span>
+                <span class="strong">95.59% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>63/66</span>
+                <span class='fraction'>65/68</span>
             </div>
         
             
@@ -166,8 +166,15 @@
 <a name='L107'></a><a href='#L107'>107</a>
 <a name='L108'></a><a href='#L108'>108</a>
 <a name='L109'></a><a href='#L109'>109</a>
-<a name='L110'></a><a href='#L110'>110</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L110'></a><a href='#L110'>110</a>
+<a name='L111'></a><a href='#L111'>111</a>
+<a name='L112'></a><a href='#L112'>112</a>
+<a name='L113'></a><a href='#L113'>113</a>
+<a name='L114'></a><a href='#L114'>114</a>
+<a name='L115'></a><a href='#L115'>115</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -217,7 +224,6 @@
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -227,6 +233,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -247,6 +254,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">5x</span>
@@ -277,6 +287,8 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">var express = require("express");
 var router = express.Router();
+const DButils = require("./utils/DButils");
+&nbsp;
 const referee_utils = require("./utils/referee_utils");
 const teams_utils = require("./utils/teams_utils");
 const matches_utils = require("./utils/matches_utils.js");
@@ -304,7 +316,7 @@ router.use(async function (req, res, next) {
 router.post("/addRefereesToMatch", async (req, res, next) =&gt; {
 &nbsp;
     try {
-        ///check if there is a referee
+        //check if there is a referee
         const main_referee = await referee_utils.getReferee(req.body.mainUserName);
         const first_referee = await referee_utils.getReferee(req.body.firstUserName);
         const second_referee = await referee_utils.getReferee(req.body.secondUserName);
@@ -317,8 +329,8 @@ router.post("/addRefereesToMatch", async (req, res, next) =&gt; {
 &nbsp;
         if (first_referee[0].referee_id == second_referee[0].referee_id)
             throw { status: 404, message: "Can not choose same line referee" };
-        
-        const match = await matches_utils.getMatch(req.body.match_id);
+&nbsp;
+        const match = await matches_utils.getMatch(parseInt(req.body.match_id));
         if (match.length == 0) {
             throw { status: 401, message: "match does not exist" };
         }
@@ -326,16 +338,16 @@ router.post("/addRefereesToMatch", async (req, res, next) =&gt; {
         const today = new Date(timeElapsed);
         const date_today = today.toISOString().slice(0, 16).replace('T', ' ');
         const date_match = match[0].match_date.toISOString().slice(0, 16).replace('T', ' ');
-&nbsp;
         if (date_today &gt; date_match) {
             throw { status: 401, message: "match has already been played" };
         }
-        
+&nbsp;
         if (match[0].main_referee != null || match[0].first_line_referee != null || match[0].second_line_referee != null) {
             throw { status: 401, message: "There is already placed referee to this match" };
         }
 &nbsp;
         const match_id = req.body.match_id;
+&nbsp;
         const result = await representive_manager_utils.addRefereesToMatch(main_referee[0].referee_id, first_referee[0].referee_id, second_referee[0].referee_id, match_id);
         if (result == 0)
             throw { status: 401, message: "main referee cannot be in two matches in same day" };
@@ -356,6 +368,9 @@ router.post("/addRefereesToMatch", async (req, res, next) =&gt; {
 &nbsp;
 router.post("/setMatches", async (req, res, next) =&gt; {
     try {
+        const date_aafuture_match = await DButils.execQuery(
+            `select match_date from dbo.matches where match_id = 125`
+        );
         const teams_details = await teams_utils.getTeams(req.body.LeagueId);
         const match_policy = await seasons_utils.getSeasonPolicy(req.body.SeasonName, req.body.LeagueId);
         if (match_policy.length == 0){
@@ -391,7 +406,7 @@ module.exports = router;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Thu Jun 10 2021 12:07:08 GMT+0300 (שעון ישראל (קיץ))
+                at Thu Jun 10 2021 13:07:01 GMT+0300 (שעון ישראל (קיץ))
             </div>
         </div>
         <script src="../../prettify.js"></script>

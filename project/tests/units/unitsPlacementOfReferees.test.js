@@ -4,7 +4,7 @@ const { isRefereeBusy } = require('../../routes/utils/representive_manager_utils
 
 
 describe('Checker entered correct data to getReferee - unit tests', () => {
-    test('Test missing fields', async () =>
+    test('Test missing fields in function getReferee', async () =>
     {
         const result = await getReferee("");
         expect(result).toBe("Missing field, make sure you entered: userName");
@@ -18,7 +18,7 @@ describe('Checker entered correct data to getReferee - unit tests', () => {
 });
 
 describe('Checker entered correct data to getMatch - unit tests', () => {
-    test('Test missing fields', async () =>
+    test('Test missing fields in function getMatch', async () =>
     {
         const result1 = await getMatch("");
         expect(result1).toBe("Missing field, make sure you entered: match_id in type integer");
@@ -36,7 +36,7 @@ describe('Checker entered correct data to getMatch - unit tests', () => {
 });
 
 describe('Checker entered correct data to isRefereeBusy - unit tests', () => {
-    test('Test missing fields', async () =>
+    test('Test missing fields in function isRefereeBusy', async () =>
     {
         const result1 = await isRefereeBusy("");
         expect(result1).toBe("Missing field, make sure you entered: match in type match and date_future_match in type Date");
@@ -46,13 +46,10 @@ describe('Checker entered correct data to isRefereeBusy - unit tests', () => {
         expect(result3).toBe("Missing field, make sure you entered: match in type match and date_future_match in type Date");
         const result4 = await isRefereeBusy("sdsFDF456g","6666vcvcx");
         expect(result4).toBe("make sure you entered: date_future_match in type Date");
-        // const result4 = await isRefereeBusy('sdsg','1');
-        // expect(result4).toBe("Missing field, make sure you entered: match in type match and date_future_match in type Date");
     });
 
-    test('Successfully, No details are missing for getMatch', async () =>
+    test('Successfully, No details are missing for function isRefereeBusy', async () =>
     {
-        //const date = new Date('2021-09-15');
         const result = await isRefereeBusy(new Date('2021-09-15') ,new Date('2021-09-15'));
         expect(result).toBe(true);
     });

@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">94.74% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>17/17</span>
+                <span class='fraction'>18/19</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">97.06% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>28/28</span>
+                <span class='fraction'>33/34</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">94.74% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>17/17</span>
+                <span class='fraction'>18/19</span>
             </div>
         
             
@@ -105,7 +105,26 @@
 <a name='L46'></a><a href='#L46'>46</a>
 <a name='L47'></a><a href='#L47'>47</a>
 <a name='L48'></a><a href='#L48'>48</a>
-<a name='L49'></a><a href='#L49'>49</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">5x</span>
+<a name='L49'></a><a href='#L49'>49</a>
+<a name='L50'></a><a href='#L50'>50</a>
+<a name='L51'></a><a href='#L51'>51</a>
+<a name='L52'></a><a href='#L52'>52</a>
+<a name='L53'></a><a href='#L53'>53</a>
+<a name='L54'></a><a href='#L54'>54</a>
+<a name='L55'></a><a href='#L55'>55</a>
+<a name='L56'></a><a href='#L56'>56</a>
+<a name='L57'></a><a href='#L57'>57</a>
+<a name='L58'></a><a href='#L58'>58</a>
+<a name='L59'></a><a href='#L59'>59</a>
+<a name='L60'></a><a href='#L60'>60</a>
+<a name='L61'></a><a href='#L61'>61</a>
+<a name='L62'></a><a href='#L62'>62</a>
+<a name='L63'></a><a href='#L63'>63</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">11x</span>
@@ -127,11 +146,22 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -149,12 +179,15 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">5x</span></td><td class="text"><pre class="prettyprint lang-js">const DButils = require("./DButils");
 &nbsp;
+/**
+ * get details of a given id of match
+ * @param {*} match_id 
+ * @returns 
+ */
 async function getMatch(match_id) {
   if (match_id == null || match_id == "" || match_id != parseInt(match_id)) {
     return "Missing field, make sure you entered: match_id in type integer";
@@ -168,38 +201,47 @@ async function getMatch(match_id) {
   return match;
 }
 &nbsp;
-// async function getMacthes() {
-//   let matches = (
-//     await DButils.execQuery("SELECT * FROM dbo.matches")
-//   );
-//   return (matches);
-// }
-&nbsp;
+/**
+ * 
+ * @param {*} season_name 
+ * @param {*} league_id 
+ * @returns get all matches from a league and season that given
+ */
 async function getMatchesByseason(season_name, league_id) {
+  <span class="missing-if-branch" title="if path not taken" >I</span>if (season_name == null || league_id == null || season_name == '' || league_id == '')
+<span class="cstat-no" title="statement not covered" >    return 400;/</span>///one of the params is null or empty
   let matches = (
     await DButils.execQuery(`SELECT * FROM dbo.matches where league_id = '${league_id}' and season_name = '${season_name}'`)
   );
   return (matches);
 }
 &nbsp;
+/**
+ * 
+ * @param {*} home_team must be an integer
+ * @param {*} out_team must be an integer
+ * @param {*} match_date must be a Date object
+ * @param {*} stadium must be a string
+ * @param {*} season_name must be a string, and the years must be onsecutive years
+ * @param {*} league_id must be an integer
+ * @returns insert a match into the table 'matches' in case of all the params are correct
+ */
 async function setMatch(home_team, out_team, match_date, stadium, season_name, league_id) {
   if (home_team == null || home_team == '' || out_team == null || out_team == '' || match_date == null || match_date == ''
     || stadium == null || stadium == '' || season_name == null || season_name == '' || league_id == null || league_id == '')
-    return 400;
+    return 400; ////one of the params is null or empty
   if (match_date instanceof Date &amp;&amp; parseInt(home_team) == home_team &amp;&amp; parseInt(out_team) == out_team &amp;&amp;
     typeof stadium === 'string' &amp;&amp; parseInt(season_name.split('-')[0]) == season_name.split('-')[0] &amp;&amp;
     parseInt(season_name.split('-')[1]) == season_name.split('-')[1] &amp;&amp; parseInt(league_id) == league_id) {
     const date_m = match_date.toISOString().slice(0, 16).replace('T', ' ');
     await DButils.execQuery(`INSERT INTO dbo.matches (match_date, stadium,home_team, out_team, league_id, season_name) values ('${date_m}','${stadium}','${home_team}','${out_team}','${league_id}','${season_name}')`)
-    return 200;
+    return 200; ///all the params is correct
   }
-  return 400;
+  return 400; ////one of the params is incorrect
 &nbsp;
 }
 &nbsp;
-&nbsp;
 exports.setMatch = setMatch;
-// exports.getMacthes = getMacthes;
 exports.getMatch = getMatch;
 exports.getMatchesByseason = getMatchesByseason;</pre></td></tr></table></pre>
 
@@ -208,7 +250,7 @@ exports.getMatchesByseason = getMatchesByseason;</pre></td></tr></table></pre>
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Thu Jun 10 2021 12:07:08 GMT+0300 (שעון ישראל (קיץ))
+                at Thu Jun 10 2021 13:07:01 GMT+0300 (שעון ישראל (קיץ))
             </div>
         </div>
         <script src="../../../prettify.js"></script>

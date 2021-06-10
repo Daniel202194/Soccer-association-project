@@ -10,7 +10,6 @@ afterEach(async() => {
     );
 });
 
-//to check again
 describe('Adding a referee to a game at DB', () => {
     test('The referee was added successfully', async () =>
     {
@@ -20,22 +19,15 @@ describe('Adding a referee to a game at DB', () => {
     
     test('Failure, the referee was not added - referee is in other game ', async () =>
     {
-        const result = await addRefereesToMatch(10, 11, 11, 127);
-        expect(result).not.toEqual(3);
-        const result1 = await addRefereesToMatch(10, 11, 11, 119);
-        expect(result1).not.toEqual(3);
-        const result2 = await addRefereesToMatch(10, 12, 12, 128);
-        expect(result2).not.toEqual(3);
-        const result3 = await addRefereesToMatch(12, 12, 12, 129);
-        expect(result3).not.toEqual(3);
-        const result4 = await addRefereesToMatch(11, 12, 12, 130);
-        expect(result4).not.toEqual(3);
-        // const result5 = await addRefereesToMatch(10, 10, 12, 87);
-        // expect(result5).not.toEqual(3);
-        // const result6 = await addRefereesToMatch(10, 10, 12, 125);
-        // expect(result6).not.toEqual(3);
-        // const result7 = await addRefereesToMatch(13, 14, 70, 71);
-        // expect(result7).not.toEqual(3);
+        // 0 - the main referee is in other game
+        // 1 - the first line referee is in other game  
+        // 2 - the second line referee is in other game
+        const result = await addRefereesToMatch(10, 8, 9, 138);
+        expect(result).toEqual(0);
+        const result1 = await addRefereesToMatch(7, 14, 9, 138);
+        expect(result1).toEqual(1);
+        const result2 = await addRefereesToMatch(7, 8, 15, 138);
+        expect(result2).toEqual(2);
     });
 
     test('Failure, the referee was not added - match does not exists! ', async () =>
@@ -44,19 +36,13 @@ describe('Adding a referee to a game at DB', () => {
         console.log(result5);
         expect(result5.status).toEqual(401);
         expect(result5.message).toEqual("match does not exists!");
-        // const result6 = await addRefereesToMatch(10, 10, 12, 125);
-        // expect(result6.status).toEqual(401);
-        // expect(result6.text).toEqual("match does not exists!");
-        // const result7 = await addRefereesToMatch(13, 14, 70, 71);
-        // expect(result7.status).toEqual(401);
-        // expect(result7.text).toEqual("match does not exists!");
     });
     
     
 });
 
 describe('Check that RFA subscribes to the system', () => {
-    test('successfully, RFA is in the system', async () =>
+    test('successfully, RFA daniel is in the system', async () =>
     {
         const result = await getRFA();
         expect(result).toEqual({"username": "daniel"});
