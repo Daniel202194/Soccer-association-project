@@ -33,10 +33,6 @@ app.use(express.static(path.join(__dirname, "public"))); //To serve static files
 // middleware to serve all the needed static files under the dist directory - loaded from the index.html file
 // https://expressjs.com/en/starter/static-files.html
 app.use(express.static("dist"));
-///28.5.21 14:30
-// app.get("/api", (req, res) => {
-//   res.sendFile(__dirname + "/index.html");
-// });
 
 const corsConfig = {
   origin: true,
@@ -50,36 +46,8 @@ app.options("*", cors(corsConfig));
 const port = process.env.PORT || "3000";
 
 const auth = require("./routes/auth");
-const users = require("./routes/users");
-const league = require("./routes/league");
-const teams = require("./routes/teams");
 const representive_manager = require("./routes/representive_manager");
-//#endregion
 
-//#region cookie middleware
-// app.use(function (req, res, next) {
-//   if (req.session && req.session.user_id) {
-//     DButils.execQuery("SELECT user_id FROM users")
-//       .then((users) => {
-//         if (users.find((x) => x.user_id === req.session.user_id)) {
-//           req.user_id = req.session.user_id;
-//         }
-//         next();
-//       })
-//       .catch((error) => next());
-//   } else {
-//     next();
-//   }
-// });
-//#endregion
-
-// // ----> For cheking that our server is alive
-// app.get("/alive", (req, res) => res.send("I'm alive"));
-
-// Routings
-app.use("/users", users);
-app.use("/league", league);
-app.use("/teams", teams);
 app.use("/representive_manager",representive_manager);
 app.use(auth);
 
@@ -92,10 +60,5 @@ const server = app.listen(port, () => {
   console.log(`Server listen on port ${port}`);
 });
 
-// process.on("SIGINT", function () {
-//   if (server) {
-//     server.close(() => console.log("server closed"));
-//   }
-// });
 
 module.exports = app ;
