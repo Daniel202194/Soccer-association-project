@@ -33,6 +33,7 @@ async function setMatch(home_team, out_team, match_date, stadium, season_name, l
   if (home_team == null || home_team == '' || out_team == null || out_team == '' || match_date == null || match_date == ''
     || stadium == null || stadium == '' || season_name == null || season_name == '' || league_id == null || league_id == '')
     return 400;
+<<<<<<< HEAD
   let isGood = true;
   if (match_date instanceof Date) {
     if (parseInt(home_team) == home_team && parseInt(out_team) == out_team && isGood) {
@@ -62,6 +63,8 @@ async function setMatch(home_team, out_team, match_date, stadium, season_name, l
 
 
 
+=======
+>>>>>>> e71c65b500a0e8556fe856a1d90844651f96f672
   if (match_date instanceof Date && parseInt(home_team) == home_team && parseInt(out_team) == out_team &&
     typeof stadium === 'string' && parseInt(season_name.split('-')[0]) == season_name.split('-')[0] &&
     parseInt(season_name.split('-')[1]) == season_name.split('-')[1] && parseInt(league_id) == league_id) {
@@ -70,6 +73,7 @@ async function setMatch(home_team, out_team, match_date, stadium, season_name, l
     return 200;
   }
   return 400;
+
 }
 
 

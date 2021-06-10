@@ -1,9 +1,11 @@
 // jest.mock('../../matches_utils')
+const teams_utils = require("../../routes/utils/teams_utils");
 const DButils = require("../../routes/utils/DButils");
 const { setMatch } = require('../../routes/utils/matches_utils');
 const { getTeams } = require('../../routes/utils/teams_utils');
 const { getSeasonPolicy } = require('../../routes/utils/seasons_utils');
 const { getMatchesByseason } = require('../../routes/utils/matches_utils');
+const { setByPolicy } = require('../../routes/utils/representive_manager_utils');
 
 async function delet_me(){
     const match = await DButils.execQuery(
@@ -27,6 +29,13 @@ describe('setMatch - unit tests', () => {
         expect(result).toBe(200);
         await delet_me();
     });
+
+    test('check valid parameters if ther is null', async () => {
+        const result = await setMatch("", null, new Date('2021-10-13'), 'STADIUM_1', '2021-2022', 1);
+        expect(result).toBe(400);
+    });
+
+
 });
 describe('matches by season- unit tests', () => {
     test('check valid parameters in get maches by worng season name', async () => {
@@ -56,5 +65,15 @@ describe('policy of set matches  - unit tests', () => {
         expect(result[0].matches_policy).toBe(1);
     });
 
+});
+
+describe('Failure - There are input errors in getSeasonPolicy', () => {
+
+    test('should return the policy number by given season and league id', async () => {
+        const teams_details = await teams_utils.getTeams(1);
+        console.log(teams_details);
+        const result = await setByPolicy(1, teams_details, 1, 1);
+        expect(result).toBe(400);
+    });
 
 });

@@ -2,7 +2,7 @@ var express = require("express");
 var router = express.Router();
 const DButils = require("../routes/utils/DButils");
 const bcrypt = require("bcryptjs");
-
+const authUtils = require("./utils/authUtils.js");
 // var referee_id_counter = 1;
 // router.post("/addReferees", async (req, res, next) => {
 //   var type;
@@ -175,11 +175,7 @@ const bcrypt = require("bcryptjs");
 
 router.post("/Login", async (req, res, next) => {
   try {
-    const user = (
-      await DButils.execQuery(
-        `SELECT * FROM dbo.users WHERE username = '${req.body.username}'`
-      )
-    )[0];
+      const user = await authUtils.existUsername(req.body.username);
     // user = user[0];
     console.log(user);
 
@@ -198,6 +194,7 @@ router.post("/Login", async (req, res, next) => {
     next(error);
   }
 });
+
 
 router.post("/Logout", function (req, res) {
   req.session.reset(); // reset the session info --> send cookie when  req.session == undefined!!

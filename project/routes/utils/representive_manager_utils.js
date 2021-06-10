@@ -28,7 +28,7 @@ async function addRefereesToMatch(main_referee_id, first_line_referee_id, second
     );
 
     if (date_future_match.length == 0) {
-        throw{ status: 401, message: "match does not exists!" };
+        return { status: 401, message: "match does not exists!" };
     }
     ////get all the games that the referee in there and collide in the date of the current game 
     for (let i = 0; i < referee_in_matches.length; i++) {
@@ -75,8 +75,14 @@ async function setByPolicy(start_index, teams_details, leegue_id, season_name) {
         if (parseInt(years[0]) != years[0] || parseInt(years[1]) != years[1] || parseInt(years[0]) + 1 != parseInt(years[1]))
             return 400;
     }
+<<<<<<< HEAD
     else
         return 400;
+=======
+    else{
+        return 400;
+    }
+>>>>>>> e71c65b500a0e8556fe856a1d90844651f96f672
 
 
     let season_year = season_name.substring(0, 4);
