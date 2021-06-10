@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">91.3% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>21/23</span>
+                <span class='fraction'>17/17</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">84.85% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>28/33</span>
+                <span class='fraction'>28/28</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">91.3% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>21/23</span>
+                <span class='fraction'>17/17</span>
             </div>
         
             
@@ -105,12 +105,7 @@
 <a name='L46'></a><a href='#L46'>46</a>
 <a name='L47'></a><a href='#L47'>47</a>
 <a name='L48'></a><a href='#L48'>48</a>
-<a name='L49'></a><a href='#L49'>49</a>
-<a name='L50'></a><a href='#L50'>50</a>
-<a name='L51'></a><a href='#L51'>51</a>
-<a name='L52'></a><a href='#L52'>52</a>
-<a name='L53'></a><a href='#L53'>53</a>
-<a name='L54'></a><a href='#L54'>54</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">5x</span>
+<a name='L49'></a><a href='#L49'>49</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">11x</span>
@@ -134,29 +129,24 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">27x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">25x</span>
+<span class="cline-any cline-yes">25x</span>
+<span class="cline-any cline-yes">25x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -193,23 +183,18 @@ async function getMatchesByseason(season_name, league_id) {
 }
 &nbsp;
 async function setMatch(home_team, out_team, match_date, stadium, season_name, league_id) {
-  <span class="missing-if-branch" title="if path not taken" >I</span>if (home_team == null || home_team == '' || out_team == null || out_team == '' || match_date == null || match_date == ''
+  if (home_team == null || home_team == '' || out_team == null || out_team == '' || match_date == null || match_date == ''
     || stadium == null || stadium == '' || season_name == null || season_name == '' || league_id == null || league_id == '')
-<span class="cstat-no" title="statement not covered" >    return 400;</span>
-  <span class="missing-if-branch" title="else path not taken" >E</span>if (match_date instanceof Date)
-    if (parseInt(home_team) == home_team &amp;&amp; parseInt(out_team) == out_team)
-      <span class="missing-if-branch" title="else path not taken" >E</span>if (typeof stadium === 'string') {
-        tt = season_name.split('-');
-        <span class="missing-if-branch" title="else path not taken" >E</span>if (parseInt(season_name.split('-')[0]) == season_name.split('-')[0] &amp;&amp; parseInt(season_name.split('-')[1]) == season_name.split('-')[1])
-          <span class="missing-if-branch" title="else path not taken" >E</span>if (parseInt(league_id) == league_id) {
-            const date_m = match_date.toISOString().slice(0, 16).replace('T', ' ');
-            await DButils.execQuery(`INSERT INTO dbo.matches (match_date, stadium,home_team, out_team, league_id, season_name) values ('${date_m}','${stadium}','${home_team}','${out_team}','${league_id}','${season_name}')`)
-            return 200;
-          }
-      }
-      else
-<span class="cstat-no" title="statement not covered" >        return 400;</span>
+    return 400;
+  if (match_date instanceof Date &amp;&amp; parseInt(home_team) == home_team &amp;&amp; parseInt(out_team) == out_team &amp;&amp;
+    typeof stadium === 'string' &amp;&amp; parseInt(season_name.split('-')[0]) == season_name.split('-')[0] &amp;&amp;
+    parseInt(season_name.split('-')[1]) == season_name.split('-')[1] &amp;&amp; parseInt(league_id) == league_id) {
+    const date_m = match_date.toISOString().slice(0, 16).replace('T', ' ');
+    await DButils.execQuery(`INSERT INTO dbo.matches (match_date, stadium,home_team, out_team, league_id, season_name) values ('${date_m}','${stadium}','${home_team}','${out_team}','${league_id}','${season_name}')`)
+    return 200;
+  }
   return 400;
+&nbsp;
 }
 &nbsp;
 &nbsp;
@@ -223,7 +208,7 @@ exports.getMatchesByseason = getMatchesByseason;</pre></td></tr></table></pre>
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Wed Jun 09 2021 23:37:45 GMT+0300 (שעון ישראל (קיץ))
+                at Thu Jun 10 2021 11:31:47 GMT+0300 (שעון ישראל (קיץ))
             </div>
         </div>
         <script src="../../../prettify.js"></script>

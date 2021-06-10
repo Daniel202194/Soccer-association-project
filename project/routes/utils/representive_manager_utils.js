@@ -20,7 +20,7 @@ async function addRefereesToMatch(main_referee_id, first_line_referee_id, second
         `select match_date from dbo.matches where match_id = '${match_id}'`
     );
     if (date_future_match.length == 0) {
-        throw{ status: 401, message: "match does not exists!" };
+        return { status: 401, message: "match does not exists!" };
     }
 
     ////get all the games that the referee in there and collide in the date of the current game 
@@ -67,6 +67,9 @@ async function setByPolicy(start_index, teams_details, leegue_id, season_name) {
         years = season_name.split('-');
         if (parseInt(years[0]) != years[0] || parseInt(years[1]) != years[1] || parseInt(years[0]) + 1 != parseInt(years[1]))
             return 400;
+    }
+    else{
+        return 400;
     }
 
 

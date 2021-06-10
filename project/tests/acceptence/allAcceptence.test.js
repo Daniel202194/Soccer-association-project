@@ -49,27 +49,25 @@ describe('Tests to UC Login', () => {
         expect(res.status).toBe(401);
         expect(res.text).toBe("Username or Password incorrect");
     });
-       
+     
 });
 
 //************************************ placement Of Matches *********************************** */
-async function afterEachMatch(){
+async function afterEachMatch1(){
     await DButils.execQuery(
         `delete from dbo.matches where league_id = 2 and season_name = '2022-2023'`
     );
 }
-// async function afterEachReferee() {
-//     await DButils.execQuery(
-//         `update dbo.matches
-//          set main_referee = null , first_line_referee = null , second_line_referee = null 
-//          where match_id = 126`
-//     );
-//     await sessionTest.post("/Logout");
-// }
+
+async function afterEachMatch2(){
+    await DButils.execQuery(
+        `delete from dbo.matches where league_id = 2 and season_name = '2025-2026'`
+    );
+}
 
 describe('Tests to UC Match Placement', () => {
     jest.setTimeout(10000);
-    test('Match placement was successful', async () => {
+    test('Match placement was successful - polisy 1', async () => {
         await aaaa();
          await sessionTest.post('/representive_manager/setMatches') 
         .send({
@@ -77,7 +75,18 @@ describe('Tests to UC Match Placement', () => {
             SeasonName: "2022-2023"        
         })
         .expect(201);
-        await afterEachMatch();
+        await afterEachMatch1();
+    });
+
+    test('Match placement was successful - polisy 2', async () => {
+        await aaaa();
+         await sessionTest.post('/representive_manager/setMatches') 
+        .send({
+            LeagueId: "2",
+            SeasonName: "2025-2026"        
+        })
+        .expect(201);
+        await afterEachMatch2();
     });
 
     test('Match placement was failure- No policy for the season', async () => {
@@ -241,9 +250,9 @@ describe('Tests to UC Referee Placement', () => {
         const ans = await sessionTest.post('/representive_manager/addRefereesToMatch') 
         .send({
             mainUserName: "referee_10",
-            firstUserName: "referee_14",
-            secondUserName: "referee_15",
-            match_id: 119              
+            firstUserName: "referee_17",
+            secondUserName: "referee_18",
+            match_id: 138              
         })
         expect(ans.status).toEqual(401);
         expect(ans.text).toEqual("main referee cannot be in two matches in same day");
@@ -255,8 +264,8 @@ describe('Tests to UC Referee Placement', () => {
         .send({
             mainUserName: "referee_13",
             firstUserName: "referee_14",
-            secondUserName: "referee_15",
-            match_id: 119              
+            secondUserName: "referee_18",
+            match_id: 138
         })
         expect(ans.status).toEqual(401);
         expect(ans.text).toEqual("first line referee cannot be in two matches in same day");
@@ -269,7 +278,7 @@ describe('Tests to UC Referee Placement', () => {
             mainUserName: "referee_16",
             firstUserName: "referee_17",
             secondUserName: "referee_15",
-            match_id: 119              
+            match_id: 138              
         })
         expect(ans.status).toEqual(401);
         expect(ans.text).toEqual("second line referee cannot be in two matches in same day");

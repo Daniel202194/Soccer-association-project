@@ -1,31 +1,24 @@
 const DButils = require("./DButils");
 
-async function selectUsernames() {
-
-    let users = (
-        await DButils.execQuery("SELECT username FROM dbo.users")
+/**
+ * Gets a username and checks if it exists in DB
+ * @param {*} username 
+ * @returns 
+ */
+async function existUsername(username) {
+    if (username === null || username === "") {
+        console.log("Username or Password incorrect")
+        return 0;
+    }
+    const user = await DButils.execQuery(
+        `SELECT * FROM dbo.users WHERE username = '${username}'`
     );
-    return (users);
-}
-
-async function addUser(username, password, firstname, lastname, country, email, urlPic) {
-
-    await DButils.execQuery(
-        `INSERT INTO dbo.users (user_id, username, password, firstname, lastname, country, email, urlPic) 
-        VALUES (default, '${username}', '${password}', '${firstname}', '${lastname}', '${country}', '${email}', '${urlPic}');`)  
+    if (user[0] != undefined) { //username do not exists
+        return (user[0]);
+    }
+    return 0;
 
 }
 
-async function findUser(username) {
-
-    let user = (
-        await DButils.execQuery(`SELECT * FROM dbo.users WHERE username = '${username}'`)
-    )[0];
-    return (user);
-}
-
-
-  exports.selectUsernames = selectUsernames;
-  exports.addUser = addUser;
-  exports.findUser = findUser;
+exports.existUsername = existUsername;
 
