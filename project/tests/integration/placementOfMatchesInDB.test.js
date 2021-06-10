@@ -1,7 +1,7 @@
 const teams_utils = require("../../routes/utils/teams_utils");
 const { setByPolicy } = require('../../routes/utils/representive_manager_utils.js');
 
-describe('check valid parameters in set policy- integration test', () => {
+describe('check valid parameters in  function setByPolicy - integration test', () => {
 
     test('should return error by given worng season name', async() => 
     {
@@ -11,7 +11,7 @@ describe('check valid parameters in set policy- integration test', () => {
         expect(result).toBe(400);
     });
 
-    test('should return error by given null', async() => 
+    test('should return error by given null in parameters', async() => 
     {
         const teams_details = await teams_utils.getTeams(1);
         console.log(teams_details);
@@ -19,7 +19,7 @@ describe('check valid parameters in set policy- integration test', () => {
         expect(result).toBe(400);
     });
 
-    test('should return error because it in past', async() => 
+    test('should return error because it the session in the past', async() => 
     {
         const teams_details = await teams_utils.getTeams(1);
         console.log(teams_details);
@@ -27,7 +27,7 @@ describe('check valid parameters in set policy- integration test', () => {
         expect(result).toBe(400);
     });
 
-    test('should return error because it is happend now', async() => 
+    test('should return error because the session is happend now and we can not able to make changes ', async() => 
     {
         const teams_details = await teams_utils.getTeams(1);
         console.log(teams_details);
@@ -35,7 +35,7 @@ describe('check valid parameters in set policy- integration test', () => {
         expect(result).toBe(400);
     });
 
-    test('should return error because it is happend now', async() => 
+    test('success - Checks that the data we have received is correct and arranges the data in accordance with the policy ', async() => 
     {
         const teams_details = await teams_utils.getTeams(1);
         console.log(teams_details);
