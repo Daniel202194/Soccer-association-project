@@ -1,5 +1,7 @@
 var express = require("express");
 var router = express.Router();
+const DButils = require("./utils/DButils");
+
 const referee_utils = require("./utils/referee_utils");
 const teams_utils = require("./utils/teams_utils");
 const matches_utils = require("./utils/matches_utils.js");
@@ -27,7 +29,41 @@ router.use(async function (req, res, next) {
 router.post("/addRefereesToMatch", async (req, res, next) => {
 
     try {
-        ///check if there is a referee
+        // let r = new Date('2021-10-13');
+        // const rest = await matches_utils.setMatch(1, 3, r, 'STADIUM_1', '2021-2022', 1);
+        let iii = matches_utils.getMatch(121);
+        // const date_fut_msatcnnh = await DButils.execQuery(
+        //     `delete from dbo.matches where league_id = 2 and season_name = '2022-2023'`
+        // );
+        // const j = await DButils.execQuery   (
+        //     `insert into seasons values (2,'2022-2023',1,1)`
+        // );
+        // const d = await DButils.execQuery(
+        //     `select * from dbo.leagues where league_id = 3`
+        // );
+        const a = await DButils.execQuery(
+            `select * from dbo.seasons where league_id = 3`
+        );
+        // const vv = await DButils.execQuery(
+        //     `insert into seasons values (3,'ligatHahal') `
+        // );
+        const aa = await DButils.execQuery(
+            `insert into seasons values (2,'2025-2026',2,2)`
+        );
+        // let x= new Date('2021-04-15');
+        const date_dfut_match = await DButils.execQuery(
+            `select * from dbo.matches where league_id = 2 and season_name = '2021-2022'`
+        );
+
+        const date_fut_matcah = await DButils.execQuery(
+            `select * from dbo.matches where league_id = 2 and season_name = '2021-2022'`
+        );
+        // const t = await DButils.execQuery(
+        //     `update matches 
+        //     set match_date = '2021-04-15'
+        //     where match_id = 125`
+        // );
+        //check if there is a referee
         const main_referee = await referee_utils.getReferee(req.body.mainUserName);
         const first_referee = await referee_utils.getReferee(req.body.firstUserName);
         const second_referee = await referee_utils.getReferee(req.body.secondUserName);
@@ -40,8 +76,8 @@ router.post("/addRefereesToMatch", async (req, res, next) => {
 
         if (first_referee[0].referee_id == second_referee[0].referee_id)
             throw { status: 404, message: "Can not choose same line referee" };
-        
-        const match = await matches_utils.getMatch(req.body.match_id);
+
+        const match = await matches_utils.getMatch(parseInt(req.body.match_id));
         if (match.length == 0) {
             throw { status: 401, message: "match does not exist" };
         }
@@ -49,16 +85,16 @@ router.post("/addRefereesToMatch", async (req, res, next) => {
         const today = new Date(timeElapsed);
         const date_today = today.toISOString().slice(0, 16).replace('T', ' ');
         const date_match = match[0].match_date.toISOString().slice(0, 16).replace('T', ' ');
-
         if (date_today > date_match) {
             throw { status: 401, message: "match has already been played" };
         }
-        
+
         if (match[0].main_referee != null || match[0].first_line_referee != null || match[0].second_line_referee != null) {
             throw { status: 401, message: "There is already placed referee to this match" };
         }
 
         const match_id = req.body.match_id;
+
         const result = await representive_manager_utils.addRefereesToMatch(main_referee[0].referee_id, first_referee[0].referee_id, second_referee[0].referee_id, match_id);
         if (result == 0)
             throw { status: 401, message: "main referee cannot be in two matches in same day" };
@@ -79,6 +115,9 @@ router.post("/addRefereesToMatch", async (req, res, next) => {
 
 router.post("/setMatches", async (req, res, next) => {
     try {
+        const date_aafuture_match = await DButils.execQuery(
+            `select match_date from dbo.matches where match_id = 125`
+        );
         const teams_details = await teams_utils.getTeams(req.body.LeagueId);
         const match_policy = await seasons_utils.getSeasonPolicy(req.body.SeasonName, req.body.LeagueId);
         if (match_policy.length == 0){
