@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1623319621128" clover="3.2.0">
-  <project timestamp="1623319621128" name="All files">
-    <metrics statements="246" coveredstatements="240" conditionals="153" coveredconditionals="148" methods="21" coveredmethods="20" elements="420" coveredelements="408" complexity="0" loc="246" ncloc="246" packages="3" files="13" classes="13"/>
+<coverage generated="1623320103930" clover="3.2.0">
+  <project timestamp="1623320103930" name="All files">
+    <metrics statements="246" coveredstatements="241" conditionals="153" coveredconditionals="149" methods="21" coveredmethods="20" elements="420" coveredelements="410" complexity="0" loc="246" ncloc="246" packages="3" files="13" classes="13"/>
     <package name="project">
       <metrics statements="34" coveredstatements="34" conditionals="4" coveredconditionals="3" methods="2" coveredmethods="2"/>
       <file name="main.js" path="C:\Users\User\Desktop\Soccer-association-project\project\main.js">
@@ -156,7 +156,7 @@
       </file>
     </package>
     <package name="project.routes.utils">
-      <metrics statements="117" coveredstatements="114" conditionals="102" coveredconditionals="101" methods="12" coveredmethods="12"/>
+      <metrics statements="117" coveredstatements="115" conditionals="102" coveredconditionals="102" methods="12" coveredmethods="12"/>
       <file name="DButils.js" path="C:\Users\User\Desktop\Soccer-association-project\project\routes\utils\DButils.js">
         <metrics statements="12" coveredstatements="10" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
         <line num="1" count="7" type="stmt"/>
@@ -185,14 +185,14 @@
         <line num="23" count="3" type="stmt"/>
       </file>
       <file name="matches_utils.js" path="C:\Users\User\Desktop\Soccer-association-project\project\routes\utils\matches_utils.js">
-        <metrics statements="19" coveredstatements="18" conditionals="34" coveredconditionals="33" methods="3" coveredmethods="3"/>
+        <metrics statements="19" coveredstatements="19" conditionals="34" coveredconditionals="34" methods="3" coveredmethods="3"/>
         <line num="1" count="5" type="stmt"/>
         <line num="9" count="11" type="cond" truecount="5" falsecount="0"/>
         <line num="10" count="3" type="stmt"/>
         <line num="13" count="8" type="stmt"/>
         <line num="18" count="8" type="stmt"/>
-        <line num="28" count="6" type="cond" truecount="5" falsecount="1"/>
-        <line num="29" count="0" type="stmt"/>
+        <line num="28" count="7" type="cond" truecount="6" falsecount="0"/>
+        <line num="29" count="1" type="stmt"/>
         <line num="31" count="6" type="stmt"/>
         <line num="33" count="6" type="stmt"/>
         <line num="47" count="27" type="cond" truecount="14" falsecount="0"/>

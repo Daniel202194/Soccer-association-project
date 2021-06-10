@@ -48,6 +48,11 @@ describe('matches by season- unit tests', () => {
         const result = await getMatchesByseason('2020-2021', 5);
         expect(result.length).toBe(0);
     });
+
+    test('check valid parameters in null', async () => {
+        const result = await getMatchesByseason('2020-2021', null);
+        expect(result).toBe(400);
+    });
 });
 
 
