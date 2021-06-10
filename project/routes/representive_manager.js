@@ -68,8 +68,6 @@ router.post("/addRefereesToMatch", async (req, res, next) => {
             throw { status: 401, message: "first line referee cannot be in two matches in same day" };
         else if (result == 2)
             throw { status: 401, message: "second line referee cannot be in two matches in same day" };
-        // else if (result == -1)
-        //     throw { status: 401, message: "match does not exists!" };
         else
             res.status(201).send("Referees was add successfully to the match");
 
