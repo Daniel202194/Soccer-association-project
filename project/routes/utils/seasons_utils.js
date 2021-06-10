@@ -2,15 +2,12 @@
 const DButils = require("./DButils");
 
 
-
-// async function getSeason(season_name) {
-//   let season = (
-//       await DButils.execQuery(`SELECT * FROM dbo.seasons WHERE season_name='${season_name}'` )
-//   );
-//   return (season);
-// }
-
-
+/**
+ * The function get season name like '2019-2020' and league id and return policy of set games  
+ * @param {*} season_name 
+ * @param {*} league_id 
+ * @returns 
+ */
 async function getSeasonPolicy(season_name, league_id) {
   let match_policy = (
       await DButils.execQuery(`SELECT matches_policy FROM dbo.seasons where season_name='${season_name}'  AND league_id = '${league_id}' `)
@@ -18,8 +15,4 @@ async function getSeasonPolicy(season_name, league_id) {
   return (match_policy);
 }
 
-
-
-
-// exports.getSeason = getSeason;
 exports.getSeasonPolicy = getSeasonPolicy;
