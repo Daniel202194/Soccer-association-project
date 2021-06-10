@@ -1,26 +1,10 @@
 const axios = require("axios");
 const LEAGUE_ID = 271;
-// const DButils = require("./DButils");
 
-
-
-// async function getLeagues(league_id) {
-//   let leagues = (
-//       await DButils.execQuery("SELECT * FROM dbo.leagues where league_id=" + league_id)
-//   );
-//   return (leagues);
-// }
-
-
-// async function getLeaguePolicy(league_id) {
-//   let match_policy = (
-//       await DButils.execQuery(`SELECT matchesPolicy FROM dbo.leagues where league_id='${league_id}'`)
-//   );
-//   return (match_policy);
-// }
-
-
-
+/**
+ * 
+ * @returns datails of Superliga like name, stage, season
+ */
 async function getLeagueDetails() {
   const league = await axios.get(
     `https://soccer.sportmonks.com/api/v2.0/leagues/${LEAGUE_ID}`,
@@ -47,5 +31,3 @@ async function getLeagueDetails() {
   };
 }
 exports.getLeagueDetails = getLeagueDetails;
-// exports.getLeagues = getLeagues
-// exports.getLeaguePolicy = getLeaguePolicy
