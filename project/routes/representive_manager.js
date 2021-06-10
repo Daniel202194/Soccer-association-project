@@ -29,40 +29,6 @@ router.use(async function (req, res, next) {
 router.post("/addRefereesToMatch", async (req, res, next) => {
 
     try {
-        // let r = new Date('2021-10-13');
-        // const rest = await matches_utils.setMatch(1, 3, r, 'STADIUM_1', '2021-2022', 1);
-        let iii = matches_utils.getMatch(121);
-        // const date_fut_msatcnnh = await DButils.execQuery(
-        //     `delete from dbo.matches where league_id = 2 and season_name = '2022-2023'`
-        // );
-        // const j = await DButils.execQuery   (
-        //     `insert into seasons values (2,'2022-2023',1,1)`
-        // );
-        // const d = await DButils.execQuery(
-        //     `select * from dbo.leagues where league_id = 3`
-        // );
-        const a = await DButils.execQuery(
-            `select * from dbo.seasons where league_id = 3`
-        );
-        // const vv = await DButils.execQuery(
-        //     `insert into seasons values (3,'ligatHahal') `
-        // );
-        const aa = await DButils.execQuery(
-            `insert into seasons values (2,'2025-2026',2,2)`
-        );
-        // let x= new Date('2021-04-15');
-        const date_dfut_match = await DButils.execQuery(
-            `select * from dbo.matches where league_id = 2 and season_name = '2021-2022'`
-        );
-
-        const date_fut_matcah = await DButils.execQuery(
-            `select * from dbo.matches where league_id = 2 and season_name = '2021-2022'`
-        );
-        // const t = await DButils.execQuery(
-        //     `update matches 
-        //     set match_date = '2021-04-15'
-        //     where match_id = 125`
-        // );
         //check if there is a referee
         const main_referee = await referee_utils.getReferee(req.body.mainUserName);
         const first_referee = await referee_utils.getReferee(req.body.firstUserName);
