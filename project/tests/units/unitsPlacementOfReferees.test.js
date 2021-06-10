@@ -30,7 +30,7 @@ describe('Checker entered correct data to getMatch - unit tests', () => {
 
     test('Successfully, No details are missing for getMatch', async () =>
     {
-        const result = await getMatch(120);
+        const result = await getMatch(121);
         expect(result[0].length).not.toBe(0);
     });
 });

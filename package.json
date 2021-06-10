@@ -4,7 +4,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "jest --coverage"
+    "start": "nodemon app.js --delay 1500ms",
+    "stop": "taskkill -f -im node.exe",
+    "test": "jest --coverage --forceExit "
   },
   "repository": {
     "type": "git",
@@ -38,5 +40,8 @@
   },
   "jest": {
     "testEnvironment": "node"
+  },
+  "events": {
+    "crash": "sh -c 'lsof -i :${PORT:-3000} -t | xargs kill'"
   }
 }

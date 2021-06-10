@@ -102,8 +102,8 @@ router.post("/addRefereesToMatch", async (req, res, next) => {
             throw { status: 401, message: "first line referee cannot be in two matches in same day" };
         else if (result == 2)
             throw { status: 401, message: "second line referee cannot be in two matches in same day" };
-        else if (result == -1)
-            throw { status: 401, message: "match does not exists!" };
+        // else if (result == -1)
+        //     throw { status: 401, message: "match does not exists!" };
         else
             res.status(201).send("Referees was add successfully to the match");
 
@@ -112,6 +112,7 @@ router.post("/addRefereesToMatch", async (req, res, next) => {
     }
 });
 
+<<<<<<< HEAD
 router.post("/setMatches", async (req, res, next) => {
     try {
         const aaw = await teams_utils.getTeams(1);
@@ -120,6 +121,14 @@ router.post("/setMatches", async (req, res, next) => {
         const teams_details = await teams_utils.getTeams(req.body.LeagueId);
         const match_policy = await seasons_utils.getSeasonPolicy(req.body.SeasonName, req.body.LeagueId);
         if (match_policy.length == 0) {
+=======
+
+router.post("/setMatches", async (req, res, next) => {
+    try {
+        const teams_details = await teams_utils.getTeams(req.body.LeagueId);
+        const match_policy = await seasons_utils.getSeasonPolicy(req.body.SeasonName, req.body.LeagueId);
+        if (match_policy.length == 0){
+>>>>>>> 321a4cba510cd573a6fdfe3e669f675041d1aaa8
             throw { status: 400, message: "No policy for the season" };
         }
         let season_name = req.body.SeasonName;
@@ -129,10 +138,17 @@ router.post("/setMatches", async (req, res, next) => {
         }
         var result;
         if (match_policy[0].matches_policy == 1) {
+<<<<<<< HEAD
             result = await setByPolicy(1, teams_details, req.body.LeagueId, req.body.SeasonName);
         }
         else {
             result = await setByPolicy(0, teams_details, req.body.LeagueId, req.body.SeasonName);
+=======
+            result = await representive_manager_utils.setByPolicy(1, teams_details, req.body.LeagueId, req.body.SeasonName);
+        }
+        else if (match_policy[0].matches_policy == 2){
+            result = await representive_manager_utils.setByPolicy(0, teams_details, req.body.LeagueId, req.body.SeasonName);
+>>>>>>> 321a4cba510cd573a6fdfe3e669f675041d1aaa8
         }
         if (result == 200)
             res.status(201).send("matches was added successfully!");
@@ -144,6 +160,7 @@ router.post("/setMatches", async (req, res, next) => {
 });
 
 
+<<<<<<< HEAD
 // router.get("/setMatches/:LeagueId/:SeasonName", async (req, res, next) => {
 //     try {
 //         const teams_details = await teams_utils.getTeams(req.params.LeagueId);
@@ -226,5 +243,6 @@ async function setByPolicy(start_index, teams_details, leegue_id, season_name) {
     }
     return res;
 }
+=======
+>>>>>>> 321a4cba510cd573a6fdfe3e669f675041d1aaa8
 module.exports = router;
-exports.setByPolicy = setByPolicy;

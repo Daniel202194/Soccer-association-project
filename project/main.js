@@ -1,7 +1,7 @@
 //#region global imports
 const DButils = require("./routes/utils/DButils");
 
-const bcrypt = require("bcryptjs");
+//const bcrypt = require("bcryptjs");
 require("dotenv").config();
 //#endregion
 //#region express configures
@@ -34,9 +34,9 @@ app.use(express.static(path.join(__dirname, "public"))); //To serve static files
 // https://expressjs.com/en/starter/static-files.html
 app.use(express.static("dist"));
 ///28.5.21 14:30
-app.get("/api", (req, res) => {
-  res.sendFile(__dirname + "/index.html");
-});
+// app.get("/api", (req, res) => {
+//   res.sendFile(__dirname + "/index.html");
+// });
 
 const corsConfig = {
   origin: true,
@@ -73,8 +73,8 @@ app.use(function (req, res, next) {
 });
 //#endregion
 
-// ----> For cheking that our server is alive
-app.get("/alive", (req, res) => res.send("I'm alive"));
+// // ----> For cheking that our server is alive
+// app.get("/alive", (req, res) => res.send("I'm alive"));
 
 // Routings
 app.use("/users", users);
