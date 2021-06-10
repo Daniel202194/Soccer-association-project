@@ -75,6 +75,8 @@ async function setByPolicy(start_index, teams_details, leegue_id, season_name) {
         if (parseInt(years[0]) != years[0] || parseInt(years[1]) != years[1] || parseInt(years[0]) + 1 != parseInt(years[1]))
             return 400;
     }
+    else
+        return 400;
 
 
     let season_year = season_name.substring(0, 4);
